@@ -37,7 +37,7 @@
   "dependencies": {
     "@jupyter-widgets/base": "^1.0.0",
     "d3": "^4.10.2",
-    "jquery-ui": "^1.12.1",
+    "jquery-ui-bundle": "^1.12.1",
     "lodash": "^4.17.4",
     "pivottable": "^2.18.0"
   }
