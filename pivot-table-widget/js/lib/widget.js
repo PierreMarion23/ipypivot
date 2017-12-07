@@ -1,11 +1,10 @@
 var widgets = require('@jupyter-widgets/base');
 var _ = require('lodash');
 // var pivot_table = require('./pivot_table');
-var pivottable = require('pivottable');
 var $ = require("jquery")
-require("jquery-ui");
+// require("jquery-ui");
 require('./style.css');
-
+var pivottable = require('pivottable');
 // Custom Model. Custom widgets models must at least provide default values
 // for model attributes, including
 //
