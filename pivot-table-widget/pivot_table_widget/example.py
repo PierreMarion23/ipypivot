@@ -1,5 +1,11 @@
 import ipywidgets as widgets
-from traitlets import Unicode, Float, Dict
+from traitlets import Unicode, Float, Dict, observe
+import pandas as pd
+import sys
+if sys.version_info[0] < 3: 
+    from StringIO import StringIO
+else:
+    from io import StringIO
 
 @widgets.register
 class PivotTable(widgets.DOMWidget):
@@ -15,6 +21,14 @@ class PivotTable(widgets.DOMWidget):
     # data_y = List([]).tag(sync=True)
     # time = List([]).tag(sync=True)
     config = Dict([]).tag(sync=True)
+    content_string = Unicode('No content yet.').tag(sync=True)
+
+    @observe('content_string')
+    def content_string_to_df(self, change):
+        print(change['old'])
+        print(change['new'])
+        self.content_df = pd.read_csv(StringIO(self.content_string), sep=r'\t', lineterminator=r'\n', engine='python')
+
 
 
 

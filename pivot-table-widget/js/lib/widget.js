@@ -5,6 +5,7 @@ var $ = require("jquery");
 require("jquery-ui-bundle");
 require('./style.css');
 var pivottable = require('pivottable');
+var export_renderer = require('pivottable/dist/export_renderers.min.js');
 // Custom Model. Custom widgets models must at least provide default values
 // for model attributes, including
 //
@@ -31,7 +32,8 @@ var PivotModel = widgets.DOMWidgetModel.extend({
 		_model_module_version: '0.1.0',
 		_view_module_version: '0.1.0',
 		value: 'Hello World',
-		config : {}
+		config : {},
+		content_string: '',
 	})
 });
 
@@ -53,6 +55,9 @@ var PivotView = widgets.DOMWidgetView.extend({
 		
 		this.el.appendChild(table);
 
+		var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.export_renderers);
+		// window.renderers = renderers;
+
 		$(function(){	
 			$(table).pivotUI(	
 				[
@@ -60,6 +65,7 @@ var PivotView = widgets.DOMWidgetView.extend({
 					{color: "red", shape: "triangle"}
 				],
 				{
+					renderers: renderers,
 					rows: ["color"],
 					cols: ["shape"]
 				}
@@ -85,10 +91,51 @@ var PivotView = widgets.DOMWidgetView.extend({
 			view.touch();
 		};
 
-		button = document.createElement("button");
-		button.addEventListener('click', save_js_to_python);
-		button.innerHTML = 'Save table'
-		this.el.appendChild(button);
+		var export_table_content = function(){
+			alert('in export table content');
+			var temp_table = document.createElement("div");
+			window.temp_table = temp_table;
+			let config = jquery(table).data("pivotUIOptions");
+			config['rendererName'] = 'TSV Export'
+			jquery.when(
+				jquery(function(){	
+					jquery(temp_table).pivotUI(	
+						[
+							{color: "blue", shape: "circle"},
+							{color: "red", shape: "triangle"}
+						], config
+					);
+				})
+			).then(function(){
+				alert('in callback');
+				// view.el.appendChild(temp_table);
+				test = temp_table.children[0].children[2].children[1];
+				console.log(temp_table.children[0].children[2].innerHTML)
+				// delay the execution for one millisecond. Else does not work !
+				setTimeout(function(){
+					content_string = temp_table.children[0].children[2].children[1].children[0].innerHTML;
+					console.log(content_string);
+					window.view_in_time_out = view;
+					view.model.set({'content_string': content_string});
+					view.touch();
+				}, 1);
+				// content_string = temp_table.children[0].children[2].children[1].children[0].innerHTML;
+				// console.log(content_string);
+				// view.model.set({'content_string': content_string});
+				// view.touch();
+			});		
+		};
+
+		button_save = document.createElement("button");
+		button_save.addEventListener('click', save_js_to_python);
+		button_save.innerHTML = 'Save table'
+		this.el.appendChild(button_save);
+
+		button_export = document.createElement("button");
+		button_export.addEventListener('click', export_table_content);
+		button_export.innerHTML = 'Export table content'
+		this.el.appendChild(button_export);
+
 		this.model.on('change:config', this.config_changed, this);
 		// this.model.on('change:value', function(){alert('in value changed');}, this);
 		// console.log(this.model);
@@ -101,6 +148,8 @@ var PivotView = widgets.DOMWidgetView.extend({
 		var view = this;
 		config = view.model.get('config');
 		window.new_config = config;
+		var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.export_renderers);
+		config['renderers'] = renderers;
 		$(function(){	
 			$(view.table).pivotUI(	
 				[
