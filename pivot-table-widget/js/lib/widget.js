@@ -31,7 +31,7 @@ var PivotModel = widgets.DOMWidgetModel.extend({
 		_model_module_version: '0.1.0',
 		_view_module_version: '0.1.0',
 		value: 'Hello World',
-		data : []
+		config : {}
 	})
 });
 
@@ -39,66 +39,22 @@ var PivotModel = widgets.DOMWidgetModel.extend({
 // Custom View. Renders the widget model.
 var PivotView = widgets.DOMWidgetView.extend({
 	render: function () {
+		window.my_view = this;
 		window.jquery = $;
 		window.el = this.el;
 		console.log("Creating html");
 		title = document.createElement("h3");
 		title.textContent = 'toto'
 		this.el.appendChild(title)
-		// script1 = document.createElement("script")
-		// script1.setAttribute("type", "text/javascript")
-		// script1.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js")
-		// this.el.appendChild(script1)
-
-		// script2 = document.createElement("script")
-		// script2.setAttribute("type", "text/javascript")
-		// script2.setAttribute("src", "https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js")
-		// this.el.appendChild(script2)
-
-		// $(this.el).pivot(
-		// 	[
-		// 		{color: "blue", shape: "circle"},
-		// 		{color: "red", shape: "triangle"}
-		// 	],
-		// 	{
-		// 		rows: ["color"],
-		// 		cols: ["shape"]
-		// 	}
-		// );
-		// script = document.createElement("script")
-		// script.setAttribute("type", "text/javascript")
-		// script.textContent = ' \
-		// $(function(){	\
-		// 	$("#myCustomOutput").pivot(	\
-		// 		[\
-		// 			{color: "blue", shape: "circle"},\
-		// 			{color: "red", shape: "triangle"}\
-		// 		],\
-		// 		{\
-		// 			rows: ["color"],\
-		// 			cols: ["shape"]\
-		// 		}\
-		// 	);\
-		//  });\
-		// '
-		// this.el.appendChild(script)
-
-		table = document.createElement("div")
+		
+		var table = document.createElement("div")
+		this.table = table;
 		table.setAttribute("id", "myCustomOutput")
-		// $(table).pivotUI(
-		// 		[
-		// 			{color: "blue", shape: "circle"},
-		// 			{color: "red", shape: "triangle"}
-		// 		],
-		// 		{
-		// 			rows: ["color"],
-		// 			cols: ["shape"]
-		// 		}
-		// );
+		
 		this.el.appendChild(table);
 
 		$(function(){	
-			$("#myCustomOutput").pivotUI(	
+			$(table).pivotUI(	
 				[
 					{color: "blue", shape: "circle"},
 					{color: "red", shape: "triangle"}
@@ -111,54 +67,47 @@ var PivotView = widgets.DOMWidgetView.extend({
 		 });
 
 
-		window.table = table;
+		//window.table = table;
+		var view = this;
+		var jquery = $;
 
+		var save_js_to_python = function(){
+			alert('in save');
+			let config = jquery(table).data("pivotUIOptions");
+			window.config = config;
+			window.view_in_save = view;
+			let config_copy = JSON.parse(JSON.stringify(config));
+			//delete some values which will not serialize to JSON
+			delete config_copy["aggregators"];
+			delete config_copy["renderers"];
+			view.model.set({'value':'toto'});
+			view.model.set({'config': config_copy})
+			view.touch();
+		};
 
-		// this.sketch = document.createElement("div");
-		// this.canvas = document.createElement("canvas");
-		// this.ctx = this.canvas.getContext('2d');
-		// this.canvas.setAttribute("class", "drawing-pad-paint");
-		// this.settings_colours = document.createElement("div");
-		// this.settings_colours.setAttribute("class", "drawing-pad-settings");
-		// this.settings_brush_size = document.createElement("div");	
-		// this.settings_brush_size.setAttribute("class", "drawing-pad-settings");	
-		// console.log("create")
-		// drawing_pad.create(this);
-
-		// this.sketch.appendChild(this.canvas);
-		// this.el.appendChild(this.sketch)
-		// this.el.appendChild(this.settings_colours);
-		// this.el.appendChild(this.settings_brush_size);
-		// this.value_changed();
-		// this.model.on('change:data', this.value_changed, this);
+		button = document.createElement("button");
+		button.addEventListener('click', save_js_to_python);
+		button.innerHTML = 'Save table'
+		this.el.appendChild(button);
+		this.model.on('change:config', this.config_changed, this);
+		// this.model.on('change:value', function(){alert('in value changed');}, this);
 		// console.log(this.model);
 	},
 
-	value_changed: function () {
-		// this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-		// var data = this.model.get('data');
-		// var x = data[0];
-		// var y = data[1];
-		// var t = data[2];
-		// this.ctx.beginPath();
+	
 
-		// if (x.length<1 || y.length<1 || x.length != y.length)
-		// {
-		// 	// alert("erreur")
-		// 	return;
-		// }
-		// this.ctx.moveTo(x[0], this.canvas.height - y[0]);
-		// for (var k=1 ; k<x.length ; k++){
-		// 	if (t[k]-t[k-1]<100){
-		// 		this.ctx.lineTo(x[k], this.canvas.height-y[k]);
-		// 		this.ctx.stroke();
-		// 	}
-		// 	else{
-		// 		this.ctx.moveTo(x[k], this.canvas.height-y[k]);
-		// 	}
-		// }
-		
-
+	config_changed: function () {
+		alert('in config changed');
+		var view = this;
+		config = view.model.get('config');
+		window.new_config = config;
+		$(function(){	
+			$(view.table).pivotUI(	
+				[
+					{color: "blue", shape: "circle"},
+					{color: "red", shape: "triangle"}
+				], config, true);
+		 });
 	}
 });
 

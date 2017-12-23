@@ -1,5 +1,5 @@
 import ipywidgets as widgets
-from traitlets import Unicode, Float, List
+from traitlets import Unicode, Float, Dict
 
 @widgets.register
 class PivotTable(widgets.DOMWidget):
@@ -14,7 +14,7 @@ class PivotTable(widgets.DOMWidget):
     # data_x = List([]).tag(sync=True)
     # data_y = List([]).tag(sync=True)
     # time = List([]).tag(sync=True)
-    data = List([[],[],[]]).tag(sync=True)
+    config = Dict([]).tag(sync=True)
 
 
 
