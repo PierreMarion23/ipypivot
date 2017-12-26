@@ -99,14 +99,10 @@ var PivotView = widgets.DOMWidgetView.extend({
 			window.temp_table = temp_table;
 			let config = jquery(table).data("pivotUIOptions");
 			config['rendererName'] = 'TSV Export'
+			var data = view.model.get('data');
 			jquery.when(
 				jquery(function(){	
-					jquery(temp_table).pivotUI(	
-						[
-							{color: "blue", shape: "circle"},
-							{color: "red", shape: "triangle"}
-						], config
-					);
+					jquery(temp_table).pivotUI(data, config);
 				})
 			).then(function(){
 				alert('in callback');
