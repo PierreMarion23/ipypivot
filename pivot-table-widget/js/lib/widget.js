@@ -47,7 +47,7 @@ var PivotView = widgets.DOMWidgetView.extend({
 		window.el = this.el;
 		console.log("Creating html");
 		title = document.createElement("h3");
-		title.textContent = 'toto'
+		title.textContent = 'My table'
 		this.el.appendChild(title)
 		
 		var table = document.createElement("div")
@@ -98,11 +98,12 @@ var PivotView = widgets.DOMWidgetView.extend({
 			var temp_table = document.createElement("div");
 			window.temp_table = temp_table;
 			let config = jquery(table).data("pivotUIOptions");
-			config['rendererName'] = 'TSV Export'
+			var config_copy = Object.assign({}, config);
+			config_copy['rendererName'] = 'TSV Export'
 			var data = view.model.get('data');
 			jquery.when(
 				jquery(function(){	
-					jquery(temp_table).pivotUI(data, config);
+					jquery(temp_table).pivotUI(data, config_copy);
 				})
 			).then(function(){
 				alert('in callback');
@@ -124,10 +125,19 @@ var PivotView = widgets.DOMWidgetView.extend({
 			});		
 		};
 
+		var restore_config = function(){
+			view.config_changed();
+		};
+
 		button_save = document.createElement("button");
 		button_save.addEventListener('click', save_js_to_python);
 		button_save.innerHTML = 'Save table config'
 		this.el.appendChild(button_save);
+
+		button_restore = document.createElement("button");
+		button_restore.addEventListener('click', restore_config);
+		button_restore.innerHTML = 'Restore saved config'
+		this.el.appendChild(button_restore);
 
 		button_export = document.createElement("button");
 		button_export.addEventListener('click', export_table_content);
@@ -160,6 +170,9 @@ var PivotView = widgets.DOMWidgetView.extend({
 		alert('in data changed');
 		var data = this.model.get("data");
 		var config = this.model.get("config");
+		// add renderers to the config JSON
+		var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.export_renderers);
+		config['renderers'] = renderers;
 		var view = this;
 		$(function(){	
 			$(view.table).pivotUI(data, config, true);

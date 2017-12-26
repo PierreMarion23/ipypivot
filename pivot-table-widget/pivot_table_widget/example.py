@@ -30,6 +30,10 @@ class PivotTable(widgets.DOMWidget):
         print(change['new'])
         self.content_df = pd.read_csv(StringIO(self.content_string), sep=r'\t', lineterminator=r'\n', engine='python')
 
+    def __init__(self, df=None):
+        super().__init__()
+        if df is not None:
+            self.data = df.to_dict(orient="records")
 
 
 
