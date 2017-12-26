@@ -34,6 +34,7 @@ var PivotModel = widgets.DOMWidgetModel.extend({
 		value: 'Hello World',
 		config : {},
 		content_string: '',
+		data : []
 	})
 });
 
@@ -58,19 +59,20 @@ var PivotView = widgets.DOMWidgetView.extend({
 		var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.export_renderers);
 		// window.renderers = renderers;
 
-		$(function(){	
-			$(table).pivotUI(	
-				[
-					{color: "blue", shape: "circle"},
-					{color: "red", shape: "triangle"}
-				],
-				{
-					renderers: renderers,
-					rows: ["color"],
-					cols: ["shape"]
-				}
-			);
-		 });
+		// $(function(){	
+		// 	$(table).pivotUI(	
+		// 		[
+		// 			{color: "blue", shape: "circle"},
+		// 			{color: "red", shape: "triangle"}
+		// 		],
+		// 		{
+		// 			renderers: renderers,
+		// 			rows: ["color"],
+		// 			cols: ["shape"]
+		// 		}
+		// 	);
+		//  });
+		this.config_changed();
 
 
 		//window.table = table;
@@ -128,7 +130,7 @@ var PivotView = widgets.DOMWidgetView.extend({
 
 		button_save = document.createElement("button");
 		button_save.addEventListener('click', save_js_to_python);
-		button_save.innerHTML = 'Save table'
+		button_save.innerHTML = 'Save table config'
 		this.el.appendChild(button_save);
 
 		button_export = document.createElement("button");
@@ -137,6 +139,7 @@ var PivotView = widgets.DOMWidgetView.extend({
 		this.el.appendChild(button_export);
 
 		this.model.on('change:config', this.config_changed, this);
+		this.model.on('change:data', this.data_changed, this);
 		// this.model.on('change:value', function(){alert('in value changed');}, this);
 		// console.log(this.model);
 	},
@@ -150,12 +153,20 @@ var PivotView = widgets.DOMWidgetView.extend({
 		window.new_config = config;
 		var renderers = $.extend($.pivotUtilities.renderers, $.pivotUtilities.export_renderers);
 		config['renderers'] = renderers;
+		var data = this.model.get("data");
+		console.log(data);
 		$(function(){	
-			$(view.table).pivotUI(	
-				[
-					{color: "blue", shape: "circle"},
-					{color: "red", shape: "triangle"}
-				], config, true);
+			$(view.table).pivotUI(data, config, true);
+		 });
+	},
+
+	data_changed: function () {
+		alert('in data changed');
+		var data = this.model.get("data");
+		var config = this.model.get("config");
+		var view = this;
+		$(function(){	
+			$(view.table).pivotUI(data, config, true);
 		 });
 	}
 });

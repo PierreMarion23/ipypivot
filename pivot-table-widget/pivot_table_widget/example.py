@@ -1,5 +1,5 @@
 import ipywidgets as widgets
-from traitlets import Unicode, Float, Dict, observe
+from traitlets import Unicode, Float, Dict, observe, List
 import pandas as pd
 import sys
 if sys.version_info[0] < 3: 
@@ -22,6 +22,7 @@ class PivotTable(widgets.DOMWidget):
     # time = List([]).tag(sync=True)
     config = Dict([]).tag(sync=True)
     content_string = Unicode('No content yet.').tag(sync=True)
+    data = List([{"color":"blue", "shape" : "circle"}, {"color" : "red", "shape" : "triangle"}]).tag(sync=True)
 
     @observe('content_string')
     def content_string_to_df(self, change):
