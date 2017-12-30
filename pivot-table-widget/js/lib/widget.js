@@ -34,7 +34,8 @@ var PivotModel = widgets.DOMWidgetModel.extend({
 		value: 'Hello World',
 		config : {},
 		content_string: '',
-		data : []
+		data : [],
+		n_index : 0
 	})
 });
 
@@ -102,6 +103,8 @@ var PivotView = widgets.DOMWidgetView.extend({
 			var config_copy = Object.assign({}, config);
 			config_copy['rendererName'] = 'TSV Export'
 			var data = view.model.get('data');
+			view.model.set({'n_index':config_copy['rows'].length});
+			view.touch();
 			jquery.when(
 				jquery(function(){	
 					jquery(temp_table).pivotUI(data, config_copy);

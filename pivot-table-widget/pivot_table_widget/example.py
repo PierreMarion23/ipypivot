@@ -1,5 +1,5 @@
 import ipywidgets as widgets
-from traitlets import Unicode, Float, Dict, observe, List
+from traitlets import Unicode, Float, Dict, observe, List, Int
 import pandas as pd
 import sys
 if sys.version_info[0] < 3: 
@@ -23,12 +23,13 @@ class PivotTable(widgets.DOMWidget):
     config = Dict([]).tag(sync=True)
     content_string = Unicode('No content yet.').tag(sync=True)
     data = List([{"color":"blue", "shape" : "circle"}, {"color" : "red", "shape" : "triangle"}]).tag(sync=True)
+    n_index = Int(0).tag(sync=True)
 
     @observe('content_string')
     def content_string_to_df(self, change):
         print(change['old'])
         print(change['new'])
-        self.content_df = pd.read_csv(StringIO(self.content_string), sep=r'\t', lineterminator=r'\n', engine='python')
+        self.content_df = pd.read_table(StringIO(self.content_string), index_col=list(range(self.n_index)))
 
     def __init__(self, df=None):
         super().__init__()
