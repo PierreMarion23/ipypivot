@@ -1,5 +1,18 @@
 .pvtUi { color: #333; }
 
+.pivot-title{
+    text-align: center;
+}
+
+.pivotable{
+    width: 100%;
+    overflow: scroll;
+    border: 1px solid #CDCDCD;
+}
+
+.pivot-buttons{
+    text-align: center;
+}
 
 table.pvtTable {
     font-size: 8pt;

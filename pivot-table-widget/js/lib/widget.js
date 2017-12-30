@@ -47,12 +47,13 @@ var PivotView = widgets.DOMWidgetView.extend({
 		window.el = this.el;
 		console.log("Creating html");
 		title = document.createElement("h3");
-		title.textContent = 'My table'
+		title.setAttribute("class", "pivot-title")
+		title.textContent = this.model.get("value")
 		this.el.appendChild(title)
 		
 		var table = document.createElement("div")
 		this.table = table;
-		table.setAttribute("id", "myCustomOutput")
+		table.setAttribute("class", "pivotable")
 		
 		this.el.appendChild(table);
 
@@ -129,20 +130,25 @@ var PivotView = widgets.DOMWidgetView.extend({
 			view.config_changed();
 		};
 
+		var buttons = document.createElement("div")
+		buttons.setAttribute("class", "pivot-buttons")
+
 		button_save = document.createElement("button");
 		button_save.addEventListener('click', save_js_to_python);
 		button_save.innerHTML = 'Save table config'
-		this.el.appendChild(button_save);
+		buttons.appendChild(button_save);
 
 		button_restore = document.createElement("button");
 		button_restore.addEventListener('click', restore_config);
 		button_restore.innerHTML = 'Restore saved config'
-		this.el.appendChild(button_restore);
+		buttons.appendChild(button_restore);
 
 		button_export = document.createElement("button");
 		button_export.addEventListener('click', export_table_content);
 		button_export.innerHTML = 'Export table content'
-		this.el.appendChild(button_export);
+		buttons.appendChild(button_export);
+
+		this.el.appendChild(buttons);
 
 		this.model.on('change:config', this.config_changed, this);
 		this.model.on('change:data', this.data_changed, this);
