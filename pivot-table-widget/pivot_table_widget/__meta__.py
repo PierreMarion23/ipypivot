@@ -34,9 +34,9 @@ __classifiers__ = ['Development Status :: 4 - Beta',
 __include_package_data__ = True
 __data_files__ = [
     ('share/jupyter/nbextensions/pivot-table-widget', [
-        'pivot-table-widget/static/extension.js',
-        'pivot-table-widget/static/index.js',
-        'pivot-table-widget/static/index.js.map',
+        'pivot_table_widget/static/extension.js',
+        'pivot_table_widget/static/index.js',
+        'pivot_table_widget/static/index.js.map',
     ]),
 ]
 __install_requires__ = ['ipywidgets>=7.0.0']
