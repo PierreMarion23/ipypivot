@@ -10,8 +10,6 @@ js/lib/block/*
 
 node_modules/
 
-static/
-
 .DS_Store
 
 *.old*
