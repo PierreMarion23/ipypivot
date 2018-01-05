@@ -149,9 +149,9 @@ setup_args = {
         'jsdeps': NPM,
     },
 
-    'author': 'oscar6echo',
-    'author_email': 'olivier.borderies@gmail.com',
-    'url': 'https://github.com//ipywidget_pivot_table',
+    'author': 'PierreMarion23',
+    'author_email': 'pierre23.marion@free.fr',
+    'url': 'https://github.com/PierreMarion23/pivot-table-widget',
     'keywords': [
         'ipython',
         'jupyter',
