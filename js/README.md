@@ -1,10 +1,10 @@
 
-# `jupyter-widget-pivot-table` Javascript part
+# `ipywidget-pivot-table` Javascript part
 
 
 This is the javascript part of a demo [jupyter-widget](https://ipywidgets.readthedocs.io/en/stable/).
 
-Check out the [jupyter-widget-pivot-table repo](https://gitlab.com/oscar6echo/jupyter-widget-pivot-table/tree/master) for more info.  
+Check out the [ipywidget-pivot-table repo](https://github.com/PierreMarion23/pivot-table-widget) for more info.  
 
 
 ## 1 - Prerequisite

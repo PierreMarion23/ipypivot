@@ -139,6 +139,7 @@ setup_args = {
     ],
     'install_requires': [
         'ipywidgets>=7.0.0',
+        'pandas==0.22.0',
     ],
     'packages': find_packages(),
     'zip_safe': False,

@@ -7,7 +7,7 @@
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/oscar6echo/jupyter-widget-pivot-table.git"
+    "url": "https://github.com/PierreMarion23/pivot-table-widget"
   },
   "keywords": [
     "jupyter",
