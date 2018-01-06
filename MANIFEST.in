@@ -1,1 +1,12 @@
+# note necessary as covered by setup data_files
 recursive-include ipywidget_pivot_table/static *.*
+
+# subfolders
+recursive-include ipywidget_pivot_table/api *.json
+recursive-include ipywidget_pivot_table/data *.csv
+recursive-include ipywidget_pivot_table/markdown *.md
+
+global-exclude *.py[co]
+
+# Misc
+include LICENSE

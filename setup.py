@@ -131,7 +131,7 @@ setup_args = {
     'long_description': LONG_DESCRIPTION,
     'include_package_data': True,
     'data_files': [
-        ('share/jupyter/nbextensions/ipywidget_pivot_table', [
+        ('share/jupyter/nbextensions/ipywidget-pivot-table', [
             'ipywidget_pivot_table/static/extension.js',
             'ipywidget_pivot_table/static/index.js',
             'ipywidget_pivot_table/static/index.js.map',
