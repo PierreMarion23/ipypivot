@@ -1,0 +1,47 @@
+{
+  "name": "ipywidget-pivot-table",
+  "version": "0.1.0",
+  "description": "A Custom Jupyter Widget Library",
+  "author": "oscar6echo",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PierreMarion23/pivot-table-widget"
+  },
+  "keywords": [
+    "jupyter",
+    "widgets",
+    "ipython",
+    "ipywidgets",
+    "pivottable"
+  ],
+  "files": [
+    "dist/*.js"
+  ],
+  "scripts": {
+    "clean": "rimraf dist/ && rimraf ../ipywidget_pivot_table/static/",
+    "cleanall": "npm run clean && rimraf node_modules/",
+    "prepare": "webpack",
+    "watch": "watch 'npm run prepare' lib/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "css-loader": "^0.28.7",
+    "less": "^2.7.2",
+    "less-loader": "^4.0.5",
+    "rimraf": "^2.6.1",
+    "style-loader": "^0.18.2",
+    "watch": "^1.0.2",
+    "webpack": "^3.10.0"
+  },
+  "dependencies": {
+    "@jupyter-widgets/base": "^1.1.8",
+    "@jupyter-widgets/controls": "^1.1.5",
+    "c3": "^0.4.18",
+    "d3": "^3.5.5",
+    "jquery": "^3.2.1",
+    "jquery-ui-bundle": "^1.12.1",
+    "pivottable": "^2.18.0"
+  }
+}
