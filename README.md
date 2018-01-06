@@ -1,5 +1,7 @@
 # ipywidget-pivot-table
 
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/PierreMarion23/jupyter-widget-pivot-table-binder/master)
+
 ## 1 - Overview
 
 This is a [jupyter widget (or ipywidget)](https://ipywidgets.readthedocs.io/en/stable/) wrapping the very convenient [pivotTable.js](https://pivottable.js.org/examples/) library.  
