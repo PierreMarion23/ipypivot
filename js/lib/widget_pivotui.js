@@ -35,13 +35,12 @@ var PivotUIModel = widgets.DOMWidgetModel.extend({
 		data: [],
 		options: {},
 		options_init: {},
-		counter_save: 0,
-		counter_restore: 0,
 		data_tsv: '',
 	})
 });
 
 var PivotUIView = widgets.DOMWidgetView.extend({
+	
 	render: function () {
 
 		console.log('jupyter-widget-pivot-table PivotUIModel start render');
@@ -53,34 +52,60 @@ var PivotUIView = widgets.DOMWidgetView.extend({
 		pivot_table.createPivotUI(that);
 
 		// event listener
-		that.model.on('change:counter_save', that.counter_save_changed, that);
-		that.model.on('change:counter_restore', that.counter_restore_changed, that);
+		that.model.on('change:options', that.options_changed, that);
+
 
 		// debug
-		// window.dom = that.el;
+		window.dom = that.el;
+
+		var button_save_clicked = function () {
+			console.log('jupyter-widget-pivot-table PivotUIModel start button_save_clicked');
+	
+			// call_pivottablejs
+			pivot_table.save_to_model(that);
+		};
+
+		var button_restore_clicked = function () {
+			console.log('jupyter-widget-pivot-table PivotUIModel start button_restore_cliked');
+	
+			// call_pivottablejs
+			pivot_table.call_pivottablejs(that, 'pivotui', 'update')
+		};
+
+
+		var buttons = document.createElement("div")
+		buttons.setAttribute("class", "pivot-buttons")
+
+		var button_save = document.createElement("button");
+		button_save.addEventListener('click', button_save_clicked);
+		button_save.innerHTML = 'Save table config'
+		buttons.appendChild(button_save);
+
+		var button_restore = document.createElement("button");
+		button_restore.addEventListener('click', button_restore_clicked);
+		button_restore.innerHTML = 'Restore saved config'
+		buttons.appendChild(button_restore);
+
+		var message = document.createElement("div")
+		message.innerHTML = Date(Date.now());
+		buttons.appendChild(message);
+		this.message = message;
+
+		// this.el.appendChild(buttons);
+		this.el.insertBefore(buttons, this.el.firstChild);
+
 	},
 
-	counter_save_changed: function () {
-
-		console.log('jupyter-widget-pivot-table PivotUIModel start counter_save_changed');
-
-		// explicit
+	options_changed: function() {
+		console.log('options changed')
 		var that = this;
-
-		// update
-		pivot_table.counter_save_changed(that);
+		that.message.innerHTML = Date(Date.now());
+		pivot_table.call_pivottablejs(that, 'pivotui', 'update');
 	},
 
-	counter_restore_changed: function () {
+	
 
-		console.log('jupyter-widget-pivot-table PivotUIModel start counter_restore_changed');
-
-		// explicit
-		var that = this;
-
-		// update
-		pivot_table.counter_restore_changed(that);
-	},
+	
 
 });
 

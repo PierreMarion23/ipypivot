@@ -32,7 +32,7 @@ var createPivot = function (that) {
 	that.tableElmt = divElmt;
 
 	// set mode='pivot' & phase='create' to indicate origin
-	this.update(that, 'pivot', 'create');
+	this.call_pivottablejs(that, 'pivot', 'create');
 
 	console.log('end createPivot');
 };
@@ -54,25 +54,25 @@ var createPivotUI = function (that) {
 	that.tableElmt = divElmt;
 
 	// set mode='pivotui' & phase='create' to indicate origin
-	this.update(that, 'pivotui', 'create');
+	this.call_pivottablejs(that, 'pivotui', 'create');
 
 	// add delay - else random failures - unknown race condition...
 	var here = this;
-	setTimeout(function () {
-		here.counter_save_changed(that);
-	}, 10);
+	// setTimeout(function () {
+	// 	here.save_to_model(that);
+	// }, 10);
 
 	console.log('end createPivotUI');
 };
 
 
-var update = function (that, mode, phase) {
+var call_pivottablejs = function (that, mode, phase) {
 	// mode = 'pivot' - call from createPivot
 	// mode = 'pivotui' - call from createPivotUI
 	// phase = 'create' - call from create
-	// phase = 'restore' - call from counter_restore_changed
+	// phase = 'update' - call from counter_restore_changed
 
-	console.log('jupyter-widget-pivot-table PivotUIModel start update');
+	console.log('jupyter-widget-pivot-table PivotUIModel start call_pivottablejs');
 
 	// get data from model
 	let data = that.model.get('data');
@@ -86,14 +86,27 @@ var update = function (that, mode, phase) {
 	// convert strings representing functions to js functions
 	options_new = util.JSONPivotTable.parse(JSON.stringify(options_new));
 
-	// only if update was launched from counter_restore_changed
-	if (phase == 'restore') {
+	// only if call_pivottablejs was launched from counter_restore_changed
+	if (phase == 'update') {
 
 		let options = that.model.get('options');
+		options = util.JSONPivotTable.parse(JSON.stringify(options));
+		if (options.hasOwnProperty('aggregators') && Object.keys(options.aggregators).length === 0){
+			delete options['aggregators'];
+		}
+		if (options.hasOwnProperty('renderers') && Object.keys(options.renderers).length === 0){
+			delete options['renderers'];
+		}
+		if (options.hasOwnProperty('sorters') && Object.keys(options.sorters).length === 0){
+			delete options['sorters'];
+		}
 
 		// let options overwrite options_new inplace - only key:values present in options
 		$.extend(options_new, options);
+		// options_new = util.JSONPivotTable.parse(JSON.stringify(options_new));
 	}
+
+	
 
 	// if not renderers present add them
 	if (!options_new['renderers']) {
@@ -109,15 +122,17 @@ var update = function (that, mode, phase) {
 
 	// actual pivottable.js call
 	if (mode == 'pivot') {
-		// console.log('call pivot');
+		console.log('call pivot');
+		console.log(options_new);
 		$(that.tableElmt).pivot(data, options_new);
 	}
 	if (mode == 'pivotui') {
-		// console.log('call pivotui');
+		console.log('call pivotui');
+		console.log(options_new);
 		$(that.tableElmt).pivotUI(data, options_new, true);
 	}
 
-	console.log('end update');
+	console.log('end call_pivottablejs');
 
 	// debug
 	window.that = that;
@@ -128,9 +143,9 @@ var update = function (that, mode, phase) {
 
 };
 
-var counter_save_changed = function (that) {
+var save_to_model = function (that) {
 
-	console.log('jupyter-widget-pivot-table start counter_save_changed');
+	console.log('jupyter-widget-pivot-table start save_to_model');
 
 	// get data from model
 	let data = that.model.get('data');
@@ -152,7 +167,7 @@ var counter_save_changed = function (that) {
 	// action promise
 	createTsvTable.then(function () {
 		// post processing
-		console.log('start counter_save_changed callback');
+		console.log('start save_to_model callback');
 
 		// DESPITE PROMISE (!) add delay - else random failures - unknown race condition...
 		setTimeout(function () {
@@ -181,7 +196,7 @@ var counter_save_changed = function (that) {
 
 			delete tempDivElmt;
 
-			console.log('end counter_save_changed callback');
+			console.log('end save_to_model callback');
 
 			// debug
 			window.data_tsv = data_tsv;
@@ -190,7 +205,7 @@ var counter_save_changed = function (that) {
 
 	});
 
-	console.log('end counter_save_changed');
+	console.log('end save_to_model');
 
 	// debug
 	window.tempDivElmt = tempDivElmt;
@@ -200,25 +215,25 @@ var counter_save_changed = function (that) {
 };
 
 
-var counter_restore_changed = function (that) {
+// var counter_restore_changed = function (that) {
 
-	// alert('in counter_save_changed');
-	console.log('jupyter-widget-pivot-table PivotUIModel start counter_restore_changed');
+// 	// alert('in save_to_model');
+// 	console.log('jupyter-widget-pivot-table PivotUIModel start counter_restore_changed');
 
-	// set phase = 'restore' to indicate origin
-	this.update(that, 'pivotui', 'restore');
+// 	// set phase = 'update' to indicate origin
+// 	this.call_pivottablejs(that, 'pivotui', 'update');
 
-	console.log('end counter_restore_changed');
+// 	console.log('end counter_restore_changed');
 
-};
+// };
 
 
 var pivot_table = {
 	createPivot: createPivot,
 	createPivotUI: createPivotUI,
-	update: update,
-	counter_save_changed: counter_save_changed,
-	counter_restore_changed: counter_restore_changed,
+	call_pivottablejs: call_pivottablejs,
+	save_to_model: save_to_model,
+	// counter_restore_changed: counter_restore_changed,
 };
 
 module.exports = pivot_table;

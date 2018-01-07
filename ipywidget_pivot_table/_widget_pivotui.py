@@ -24,8 +24,6 @@ class PivotUI(widgets.DOMWidget):
     data = List([]).tag(sync=True)
     options = Dict({}).tag(sync=True)
     options_init = Dict({}).tag(sync=True)
-    counter_save = Int(0).tag(sync=True)
-    counter_restore = Int(0).tag(sync=True)
     data_tsv = Unicode('Empty').tag(sync=True)
 
     @observe('data_tsv')

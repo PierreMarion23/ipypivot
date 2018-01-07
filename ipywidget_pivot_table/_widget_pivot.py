@@ -1,6 +1,7 @@
 
 import ipywidgets as widgets
 import pandas as pd
+from copy import deepcopy
 
 
 from traitlets import observe
@@ -22,6 +23,7 @@ class Pivot(widgets.DOMWidget):
     _model_module_version = Unicode('^0.1.0').tag(sync=True)
 
     data = List([]).tag(sync=True)
+    options = Dict({}).tag(sync=True)
     options_init = Dict({}).tag(sync=True)
 
     def __init__(self,
@@ -38,6 +40,7 @@ class Pivot(widgets.DOMWidget):
 
         if options is not None:
             if isinstance(options, dict):
-                self.options_init = options
+                self.options = options
             if isinstance(options, Pivot_Options):
-                self.options_init = options.to_dict()
+                self.options = options.to_dict()
+            self.options_init = deepcopy(self.options)

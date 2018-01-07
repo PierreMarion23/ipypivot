@@ -33,7 +33,7 @@ var PivotModel = widgets.DOMWidgetModel.extend({
 		_model_module_version: '~0.1.0',
 		_view_module_version: '~0.1.0',
 		data: [],
-		options_init: {},
+		options: {},
 	})
 });
 
@@ -49,10 +49,23 @@ var PivotView = widgets.DOMWidgetView.extend({
 		pivot_table.createPivot(that);
 
 		// event listener
-		// none - case of static display
+		that.model.on('change:options', that.options_changed, that);
+
+		var message = document.createElement("div")
+		message.innerHTML = Date(Date.now());
+		this.message = message;
+
+		this.el.insertBefore(message, this.el.firstChild);
 
 		// debug
 		// window.dom = that.el;
+	},
+
+	options_changed: function() {
+		console.log('options changed')
+		var that = this;
+		that.message.innerHTML = Date(Date.now());
+		pivot_table.call_pivottablejs(that, 'pivot', 'update');
 	},
 });
 
