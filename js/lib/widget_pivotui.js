@@ -4,7 +4,8 @@
 var widgets = require('@jupyter-widgets/base');
 var $ = require('jquery');
 var pivot_table = require('./pivot-table');
-
+var util = require('./util');
+require('./style.css');
 
 // Custom Model. Custom widgets models must at least provide default values
 // for model attributes, including
@@ -40,7 +41,7 @@ var PivotUIModel = widgets.DOMWidgetModel.extend({
 });
 
 var PivotUIView = widgets.DOMWidgetView.extend({
-	
+
 	render: function () {
 
 		console.log('jupyter-widget-pivot-table PivotUIModel start render');
@@ -60,34 +61,37 @@ var PivotUIView = widgets.DOMWidgetView.extend({
 
 		var button_save_clicked = function () {
 			console.log('jupyter-widget-pivot-table PivotUIModel start button_save_clicked');
-	
-			// call_pivottablejs
-			pivot_table.save_to_model(that);
+
+			// save triggers all views rendering
+			// pivot_table.save_to_model(that);
+			// save triggers only current view rendering
+			pivot_table.touch(that);
 		};
 
 		var button_restore_clicked = function () {
 			console.log('jupyter-widget-pivot-table PivotUIModel start button_restore_cliked');
-	
+
 			// call_pivottablejs
-			pivot_table.call_pivottablejs(that, 'pivotui', 'update')
+			pivot_table.call_pivottablejs(that, 'pivotui', 'update');
 		};
 
 
-		var buttons = document.createElement("div")
-		buttons.setAttribute("class", "pivot-buttons")
+		var buttons = document.createElement('div');
+		buttons.setAttribute('class', 'pivot-buttons');
 
-		var button_save = document.createElement("button");
+		var button_save = document.createElement('button');
 		button_save.addEventListener('click', button_save_clicked);
-		button_save.innerHTML = 'Save table config'
+		button_save.innerHTML = 'Save';
 		buttons.appendChild(button_save);
 
-		var button_restore = document.createElement("button");
+		var button_restore = document.createElement('button');
 		button_restore.addEventListener('click', button_restore_clicked);
-		button_restore.innerHTML = 'Restore saved config'
+		button_restore.innerHTML = 'Restore';
 		buttons.appendChild(button_restore);
 
-		var message = document.createElement("div")
-		message.innerHTML = Date(Date.now());
+		var message = document.createElement('div');
+		message.className = 'last-saved';
+		message.innerHTML = 'Last save ' + util.formatDate(new Date());
 		buttons.appendChild(message);
 		this.message = message;
 
@@ -96,16 +100,13 @@ var PivotUIView = widgets.DOMWidgetView.extend({
 
 	},
 
-	options_changed: function() {
-		console.log('options changed')
+	options_changed: function () {
+		console.log('options changed');
 		var that = this;
-		that.message.innerHTML = Date(Date.now());
+		that.message.innerHTML = 'Last save ' + util.formatDate(new Date());
 		pivot_table.call_pivottablejs(that, 'pivotui', 'update');
 	},
 
-	
-
-	
 
 });
 

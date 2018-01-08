@@ -4,6 +4,8 @@
 var widgets = require('@jupyter-widgets/base');
 var $ = require('jquery');
 var pivot_table = require('./pivot-table');
+// var util = require('./util');
+require('./style.css');
 
 
 // Custom Model. Custom widgets models must at least provide default values
@@ -51,8 +53,8 @@ var PivotView = widgets.DOMWidgetView.extend({
 		// event listener
 		that.model.on('change:options', that.options_changed, that);
 
-		var message = document.createElement("div")
-		message.innerHTML = Date(Date.now());
+		var message = document.createElement('div');
+		// message.innerHTML = 'Last save ' + util.formatDate(new Date());
 		this.message = message;
 
 		this.el.insertBefore(message, this.el.firstChild);
@@ -61,10 +63,10 @@ var PivotView = widgets.DOMWidgetView.extend({
 		// window.dom = that.el;
 	},
 
-	options_changed: function() {
-		console.log('options changed')
+	options_changed: function () {
+		console.log('options changed');
 		var that = this;
-		that.message.innerHTML = Date(Date.now());
+		// that.message.innerHTML = 'Last save ' + util.formatDate(new Date());
 		pivot_table.call_pivottablejs(that, 'pivot', 'update');
 	},
 });

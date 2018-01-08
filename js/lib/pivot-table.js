@@ -194,8 +194,6 @@ var save_to_model = function (that) {
 			// that.model.save_changes();
 			that.touch();
 
-			delete tempDivElmt;
-
 			console.log('end save_to_model callback');
 
 			// debug
