@@ -32,4 +32,17 @@ body {
  .c3-xgrid-focus {
     visibility: hidden !important;
 }
- 
+
+.pivot-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+}
+
+.pivot-buttons button {
+    background-color: lightgray;
+}
+
+.pivot-buttons .last-saved {
+    font-weight: bold;
+}
