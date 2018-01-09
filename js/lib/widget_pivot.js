@@ -4,7 +4,7 @@
 var widgets = require('@jupyter-widgets/base');
 var $ = require('jquery');
 var pivot_table = require('./pivot-table');
-// var util = require('./util');
+var util = require('./util');
 require('./style.css');
 
 
@@ -54,7 +54,7 @@ var PivotView = widgets.DOMWidgetView.extend({
 		that.model.on('change:options', that.options_changed, that);
 
 		var message = document.createElement('div');
-		// message.innerHTML = 'Last save ' + util.formatDate(new Date());
+		message.innerHTML = 'Last save ' + util.formatDate(new Date());
 		this.message = message;
 
 		this.el.insertBefore(message, this.el.firstChild);
@@ -66,7 +66,7 @@ var PivotView = widgets.DOMWidgetView.extend({
 	options_changed: function () {
 		console.log('options changed');
 		var that = this;
-		// that.message.innerHTML = 'Last save ' + util.formatDate(new Date());
+		that.message.innerHTML = 'Last save ' + util.formatDate(new Date());
 		pivot_table.call_pivottablejs(that, 'pivot', 'update');
 	},
 });
