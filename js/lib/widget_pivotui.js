@@ -63,9 +63,7 @@ var PivotUIView = widgets.DOMWidgetView.extend({
 			console.log('jupyter-widget-pivot-table PivotUIModel start button_save_clicked');
 
 			// save triggers all views rendering
-			// pivot_table.save_to_model(that);
-			// save triggers only current view rendering
-			pivot_table.touch(that);
+			pivot_table.save_to_model(that);
 		};
 
 		var button_restore_clicked = function () {
