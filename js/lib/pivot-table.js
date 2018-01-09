@@ -57,7 +57,7 @@ var createPivotUI = function (that) {
 	this.call_pivottablejs(that, 'pivotui', 'create');
 
 	// add delay - else random failures - unknown race condition...
-	var here = this;
+	// var here = this;
 	// setTimeout(function () {
 	// 	here.save_to_model(that);
 	// }, 10);
