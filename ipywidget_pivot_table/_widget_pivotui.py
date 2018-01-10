@@ -24,7 +24,7 @@ class PivotUI(widgets.DOMWidget):
     data = List([]).tag(sync=True)
     options = Dict({}).tag(sync=True)
     data_tsv = Unicode('Empty').tag(sync=True)
-    compteur = Int(0)
+    counter = Int(0)
 
     @observe('data_tsv')
     def tsv_to_df(self, change):
@@ -52,9 +52,9 @@ class PivotUI(widgets.DOMWidget):
             arr.insert(0, list(df_data.columns))
             self.data = arr
 
-    @observe('compteur')
+    @observe('counter')
     def change_options_object(self, change):
-        print('change compteur')
+        print('change counter')
         self.options = self.options_object.to_dict()
 
     @observe('options')
