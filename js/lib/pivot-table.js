@@ -31,7 +31,7 @@ var createPivot = function (that) {
 	// attach to view
 	that.tableElmt = divElmt;
 
-	// set mode='pivot' & phase='create' to indicate origin
+	// set mode='pivot' to indicate origin
 	this.call_pivottablejs(that, 'pivot', 'create');
 
 	console.log('end createPivot');
@@ -53,7 +53,7 @@ var createPivotUI = function (that) {
 	// attach to view
 	that.tableElmt = divElmt;
 
-	// set mode='pivotui' & phase='create' to indicate origin
+	// set mode='pivotui' to indicate origin
 	this.call_pivottablejs(that, 'pivotui', 'create');
 
 	// add delay - else random failures - unknown race condition...
@@ -66,11 +66,9 @@ var createPivotUI = function (that) {
 };
 
 
-var call_pivottablejs = function (that, mode, phase) {
+var call_pivottablejs = function (that, mode) {
 	// mode = 'pivot' - call from createPivot
 	// mode = 'pivotui' - call from createPivotUI
-	// phase = 'create' - call from create
-	// phase = 'update' - call from counter_restore_changed
 
 	console.log('jupyter-widget-pivot-table PivotUIModel start call_pivottablejs');
 
