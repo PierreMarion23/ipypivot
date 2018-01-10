@@ -10,8 +10,15 @@ class Pivot_Options(Wrapper):
     Ref: https://github.com/nicolaskruchten/pivottable/wiki/Parameters#options-object-for-pivot
     """
 
-    def __init__(self):
+    def __init__(self, pivot):
         Wrapper.__init__(self, state_Pivot)
+        self._pivot = pivot
+
+    def __setattr__(self, attr, value):
+        object.__setattr__(self, attr, value)
+        if attr != '_pivot' and attr != 'path' and attr != 'state':     # necessary to avoid errors
+            self._pivot.compteur += 1
+
 
 class PivotUI_Options(Wrapper):
     """
@@ -20,6 +27,12 @@ class PivotUI_Options(Wrapper):
     Ref: https://github.com/nicolaskruchten/pivottable/wiki/Parameters#options-object-for-pivotui
     """
 
-    def __init__(self):
+    def __init__(self, pivot):
         Wrapper.__init__(self, state_PivotUI)
+        self._pivot = pivot
+
+    def __setattr__(self, attr, value):
+        object.__setattr__(self, attr, value)
+        if attr != '_pivot' and attr != 'path' and attr != 'state':     # necessary to avoid errors
+            self._pivot.compteur += 1
 

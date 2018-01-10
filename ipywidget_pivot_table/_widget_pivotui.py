@@ -23,8 +23,8 @@ class PivotUI(widgets.DOMWidget):
 
     data = List([]).tag(sync=True)
     options = Dict({}).tag(sync=True)
-    options_init = Dict({}).tag(sync=True)
     data_tsv = Unicode('Empty').tag(sync=True)
+    compteur = Int(0)
 
     @observe('data_tsv')
     def tsv_to_df(self, change):
@@ -41,25 +41,31 @@ class PivotUI(widgets.DOMWidget):
                                         col_names)
 
     def __init__(self,
-                 df_data=None,
-                 options=None):
+                 df_data=None):
         """
         """
         super().__init__()
+        self.options_object = PivotUI_Options(self)
 
         if df_data is not None:
             arr = df_data.values.tolist()
             arr.insert(0, list(df_data.columns))
             self.data = arr
 
-        if options is not None:
-            if isinstance(options, dict):
-                self.options = options
-                self.options_init = deepcopy(options)
-            if isinstance(options, PivotUI_Options):
-                d = options.to_dict()
-                self.options = d
-                self.options_init = deepcopy(d)
+    @observe('compteur')
+    def change_options_object(self, change):
+        print('change compteur')
+        self.options = self.options_object.to_dict()
+
+    @observe('options')
+    def change_options_dic(self, change):
+        print('change options')
+        for (key, value) in self.options.items():
+            if key not in ['aggregators', 'derivedAttributes', 'renderers', 'sorters', 'rendererOptions']:
+                if key not in self.options_object.__dict__.keys() or getattr(self.options_object, key) != value:
+                    object.__setattr__(self.options_object, key, value)
+
+
 
     def _shape_df(self,
                   df,

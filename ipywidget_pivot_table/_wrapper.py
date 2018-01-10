@@ -42,6 +42,7 @@ class Wrapper(object):
     def to_dict(self):
         _dic = dict(self.__dict__)
         _dic.pop('path')
+        _dic.pop('_pivot')
 
         for k in list(_dic.keys()):
             if isinstance(_dic[k], list):

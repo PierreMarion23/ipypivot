@@ -57,10 +57,10 @@ var createPivotUI = function (that) {
 	this.call_pivottablejs(that, 'pivotui', 'create');
 
 	// add delay - else random failures - unknown race condition...
-	// var here = this;
-	// setTimeout(function () {
-	// 	here.save_to_model(that);
-	// }, 10);
+	var here = this;
+	setTimeout(function () {
+		here.save_to_model(that);
+	}, 10);
 
 	console.log('end createPivotUI');
 };
@@ -77,36 +77,40 @@ var call_pivottablejs = function (that, mode, phase) {
 	// get data from model
 	let data = that.model.get('data');
 
-	// get options_init from model
-	let options_init = that.model.get('options_init');
+	// get options
+	let options = that.model.get('options');
+	options = util.JSONPivotTable.parse(JSON.stringify(options));
 
-	// deepcopy options_init
-	let options_new = $.extend({}, options_init);
-
-	// convert strings representing functions to js functions
-	options_new = util.JSONPivotTable.parse(JSON.stringify(options_new));
-
-	// only if call_pivottablejs was launched from counter_restore_changed
-	if (phase == 'update') {
-
-		let options = that.model.get('options');
-		options = util.JSONPivotTable.parse(JSON.stringify(options));
-		if (options.hasOwnProperty('aggregators') && Object.keys(options.aggregators).length === 0){
-			delete options['aggregators'];
+	// treat specifically difficult cases
+	if (options.hasOwnProperty('aggregators') && Object.keys(options.aggregators).length === 0){
+		delete options['aggregators'];
+	}
+	if (options.hasOwnProperty('renderers') && Object.keys(options.renderers).length === 0){
+		delete options['renderers'];
+	}
+	if (options.hasOwnProperty('sorters') && Object.keys(options.sorters).length === 0){
+		delete options['sorters'];
+	}
+	if (options.hasOwnProperty('rendererOptions') && (that.hasOwnProperty('old_options'))){
+		console.log('modify renderOptions');
+		for(var key in options['rendererOptions']) {
+			if (that.old_options['rendererOptions'].hasOwnProperty(key) && Object.keys(options['rendererOptions'][key]).length === 0){
+				options['rendererOptions'][key] = $.extend({}, that.old_options['rendererOptions'][key])
+			}
 		}
-		if (options.hasOwnProperty('renderers') && Object.keys(options.renderers).length === 0){
-			delete options['renderers'];
-		}
-		if (options.hasOwnProperty('sorters') && Object.keys(options.sorters).length === 0){
-			delete options['sorters'];
-		}
-
-		// let options overwrite options_new inplace - only key:values present in options
-		$.extend(options_new, options);
-		// options_new = util.JSONPivotTable.parse(JSON.stringify(options_new));
+	}
+	if (options.hasOwnProperty('derivedAttributes') && Object.keys(options.derivedAttributes).length === 0){
+		delete options['derivedAttributes'];
 	}
 
-	
+	// take into account old options because of function values that were lost in the save process
+	let options_new = $.extend({}, options);
+	if (that.hasOwnProperty('old_options')){
+		console.log('old options');
+		console.log(that.old_options);
+		$.extend(options_new, that.old_options);
+		$.extend(options_new, options)
+	}
 
 	// if not renderers present add them
 	if (!options_new['renderers']) {
@@ -181,10 +185,15 @@ var save_to_model = function (that) {
 
 			// actual pivottable.js call to collect current options
 			let options = $(that.tableElmt).data('pivotUIOptions');
+			console.log(options)
 
 			// NOTE: We do NOT stringify options functions
 			// they are naturally dropped in the view-model transmission
 			// options = JSON.parse(util.JSONPivotTable.stringify(options));
+
+			// save options due to the problem cites above (to remember the functions that would have been forgotten
+			// due to the view-model transmission)
+			that.old_options = $.extend({}, options);
 
 			that.model.set({
 				'data_tsv': data_tsv,
@@ -213,25 +222,11 @@ var save_to_model = function (that) {
 };
 
 
-// var counter_restore_changed = function (that) {
-
-// 	// alert('in save_to_model');
-// 	console.log('jupyter-widget-pivot-table PivotUIModel start counter_restore_changed');
-
-// 	// set phase = 'update' to indicate origin
-// 	this.call_pivottablejs(that, 'pivotui', 'update');
-
-// 	console.log('end counter_restore_changed');
-
-// };
-
-
 var pivot_table = {
 	createPivot: createPivot,
 	createPivotUI: createPivotUI,
 	call_pivottablejs: call_pivottablejs,
 	save_to_model: save_to_model,
-	// counter_restore_changed: counter_restore_changed,
 };
 
 module.exports = pivot_table;

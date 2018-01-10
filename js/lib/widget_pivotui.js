@@ -35,7 +35,6 @@ var PivotUIModel = widgets.DOMWidgetModel.extend({
 		_view_module_version: '~0.1.0',
 		data: [],
 		options: {},
-		options_init: {},
 		data_tsv: '',
 	})
 });

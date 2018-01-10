@@ -24,23 +24,21 @@ class Pivot(widgets.DOMWidget):
 
     data = List([]).tag(sync=True)
     options = Dict({}).tag(sync=True)
-    options_init = Dict({}).tag(sync=True)
+    compteur = Int(0)
 
     def __init__(self,
-                 df_data=None,
-                 options=None):
+                 df_data=None):
         """
         """
         super().__init__()
+        self.options_object = Pivot_Options(self)
 
         if df_data is not None:
             arr = df_data.values.tolist()
             arr.insert(0, list(df_data.columns))
             self.data = arr
 
-        if options is not None:
-            if isinstance(options, dict):
-                self.options = options
-            if isinstance(options, Pivot_Options):
-                self.options = options.to_dict()
-            self.options_init = deepcopy(self.options)
+    @observe('compteur')
+    def change_options_object(self, change):
+        print('change')
+        self.options = self.options_object.to_dict()
