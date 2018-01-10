@@ -82,39 +82,41 @@ var call_pivottablejs = function (that, mode, phase) {
 	options = util.JSONPivotTable.parse(JSON.stringify(options));
 
 	// treat specifically difficult cases
-	if (options.hasOwnProperty('aggregators') && Object.keys(options.aggregators).length === 0){
+	if (options.hasOwnProperty('aggregators') && Object.keys(options.aggregators).length === 0) {
 		delete options['aggregators'];
 	}
-	if (options.hasOwnProperty('renderers') && Object.keys(options.renderers).length === 0){
+	if (options.hasOwnProperty('renderers') && Object.keys(options.renderers).length === 0) {
 		delete options['renderers'];
 	}
-	if (options.hasOwnProperty('sorters') && Object.keys(options.sorters).length === 0){
+	if (options.hasOwnProperty('sorters') && Object.keys(options.sorters).length === 0) {
 		delete options['sorters'];
 	}
-	if (options.hasOwnProperty('rendererOptions') && (that.hasOwnProperty('old_options'))){
-		console.log('modify renderOptions');
-		for(var key in options['rendererOptions']) {
-			if (that.old_options['rendererOptions'].hasOwnProperty(key) && Object.keys(options['rendererOptions'][key]).length === 0){
-				options['rendererOptions'][key] = $.extend({}, that.old_options['rendererOptions'][key])
-			}
-		}
-	}
-	if (options.hasOwnProperty('derivedAttributes') && Object.keys(options.derivedAttributes).length === 0){
+	if (options.hasOwnProperty('derivedAttributes') && Object.keys(options.derivedAttributes).length === 0) {
 		delete options['derivedAttributes'];
 	}
 
-	// take into account old options because of function values that were lost in the save process
+	// add those prop under rendererOptions which were dropped in the view->model transmission
+	if (options.hasOwnProperty('rendererOptions') && (that.hasOwnProperty('old_options'))) {
+		console.log('modify renderOptions');
+		for (var key in options['rendererOptions']) {
+			if (that.old_options['rendererOptions'].hasOwnProperty(key) && Object.keys(options['rendererOptions'][key]).length === 0) {
+				options['rendererOptions'][key] = $.extend({}, that.old_options['rendererOptions'][key]);
+			}
+		}
+	}
+
+	// recall old options for functions that were dropped in the save process
 	let options_new = $.extend({}, options);
-	if (that.hasOwnProperty('old_options')){
+	if (that.hasOwnProperty('old_options')) {
 		console.log('old options');
 		console.log(that.old_options);
 		$.extend(options_new, that.old_options);
-		$.extend(options_new, options)
+		$.extend(options_new, options);
 	}
 
-	// if not renderers present add them
+	// if no renderer present add them
 	if (!options_new['renderers']) {
-		// console.log('adding renderers');
+		console.log('add renderers');
 		var renderers = $.extend({},
 			$.pivotUtilities.renderers,
 			$.pivotUtilities.c3_renderers,
@@ -142,8 +144,6 @@ var call_pivottablejs = function (that, mode, phase) {
 	window.that = that;
 	window.$ = $;
 	window.data = data;
-
-
 
 };
 
@@ -185,14 +185,15 @@ var save_to_model = function (that) {
 
 			// actual pivottable.js call to collect current options
 			let options = $(that.tableElmt).data('pivotUIOptions');
-			console.log(options)
+			console.log(options);
 
 			// NOTE: We do NOT stringify options functions
 			// they are naturally dropped in the view-model transmission
 			// options = JSON.parse(util.JSONPivotTable.stringify(options));
 
-			// save options due to the problem cites above (to remember the functions that would have been forgotten
-			// due to the view-model transmission)
+			// save options due to the problem above
+			// ie remember the functions that may be dropped
+			// in the view-model transmission
 			that.old_options = $.extend({}, options);
 
 			that.model.set({
@@ -217,7 +218,6 @@ var save_to_model = function (that) {
 	// debug
 	window.tempDivElmt = tempDivElmt;
 	window.createTsvTable = createTsvTable;
-
 
 };
 

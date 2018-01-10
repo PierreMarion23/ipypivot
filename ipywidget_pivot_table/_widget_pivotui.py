@@ -60,7 +60,7 @@ class PivotUI(widgets.DOMWidget):
     @observe('options')
     def change_options_dic(self, change):
         print('change options')
-        for (key, value) in self.options.items():
+        for key, value in self.options.items():
             if key not in ['aggregators', 'derivedAttributes', 'renderers', 'sorters', 'rendererOptions']:
                 if key not in self.options_object.__dict__.keys() or getattr(self.options_object, key) != value:
                     object.__setattr__(self.options_object, key, value)
