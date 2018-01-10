@@ -9,6 +9,7 @@ from traitlets import Unicode, Dict, List, Int
 from io import StringIO
 
 from ._options import PivotUI_Options
+from ._widget_util import shape_df
 
 
 @widgets.register
@@ -34,11 +35,8 @@ class PivotUI(widgets.DOMWidget):
                              sep=r'\t',
                              lineterminator=r'\n',
                              engine='python')
-        row_names = self.options['rows']
-        col_names = self.options['cols']
-        self.df_export = self._shape_df(df_tsv,
-                                        row_names,
-                                        col_names)
+        self.df_export = shape_df(df_tsv,
+                                  self.options)
 
     def __init__(self,
                  df_data=None):
@@ -64,52 +62,3 @@ class PivotUI(widgets.DOMWidget):
             if key not in ['aggregators', 'derivedAttributes', 'renderers', 'sorters', 'rendererOptions']:
                 if key not in self.options_object.__dict__.keys() or getattr(self.options_object, key) != value:
                     object.__setattr__(self.options_object, key, value)
-
-
-
-    def _shape_df(self,
-                  df,
-                  row_names,
-                  col_names):
-        """
-        """
-        if row_names and col_names:
-            df2 = df.set_index(row_names)
-
-            row_idx = df2.index
-            data = df2.values
-
-            col_tuples = [tuple(e.split('-'))
-                          for e in list(df.columns[len(row_names):])]
-
-            col_idx = pd.MultiIndex.from_tuples(tuples=col_tuples,
-                                                names=col_names)
-
-            df_res = pd.DataFrame(data=data,
-                                  index=row_idx,
-                                  columns=col_idx)
-
-        elif row_names and not col_names:
-            df2 = df.set_index(row_names)
-
-            df_res = pd.DataFrame(df2)
-
-        elif not row_names and col_names:
-            row_idx = df.index
-            data = df.values
-
-            col_tuples = [tuple(e.split('-'))
-                          for e in list(df.columns)]
-
-            col_idx = pd.MultiIndex.from_tuples(tuples=col_tuples,
-                                                names=col_names)
-
-            df_res = pd.DataFrame(data=data,
-                                  index=row_idx,
-                                  columns=col_idx)
-
-        else:
-
-            df_res = pd.DataFrame()
-
-        return df_res
