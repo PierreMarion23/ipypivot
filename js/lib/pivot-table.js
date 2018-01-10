@@ -82,24 +82,24 @@ var call_pivottablejs = function (that, mode, phase) {
 	options = util.JSONPivotTable.parse(JSON.stringify(options));
 
 	// treat specifically difficult cases
-	if (options.hasOwnProperty('aggregators') && Object.keys(options.aggregators).length === 0) {
+	if (options.aggregators && Object.keys(options.aggregators).length == 0) {
 		delete options['aggregators'];
 	}
-	if (options.hasOwnProperty('renderers') && Object.keys(options.renderers).length === 0) {
+	if (options.renderers && Object.keys(options.renderers).length == 0) {
 		delete options['renderers'];
 	}
-	if (options.hasOwnProperty('sorters') && Object.keys(options.sorters).length === 0) {
+	if (options.sorters && Object.keys(options.sorters).length == 0) {
 		delete options['sorters'];
 	}
-	if (options.hasOwnProperty('derivedAttributes') && Object.keys(options.derivedAttributes).length === 0) {
+	if (options.derivedAttributes && Object.keys(options.derivedAttributes).length == 0) {
 		delete options['derivedAttributes'];
 	}
 
 	// add those prop under rendererOptions which were dropped in the view->model transmission
-	if (options.hasOwnProperty('rendererOptions') && (that.hasOwnProperty('old_options'))) {
+	if (options.rendererOptions && (that.old_options)) {
 		console.log('modify renderOptions');
 		for (var key in options['rendererOptions']) {
-			if (that.old_options['rendererOptions'].hasOwnProperty(key) && Object.keys(options['rendererOptions'][key]).length === 0) {
+			if (that.old_options['rendererOptions'].hasOwnProperty(key) && Object.keys(options['rendererOptions'][key]).length == 0) {
 				options['rendererOptions'][key] = $.extend({}, that.old_options['rendererOptions'][key]);
 			}
 		}
@@ -107,7 +107,7 @@ var call_pivottablejs = function (that, mode, phase) {
 
 	// recall old options for functions that were dropped in the save process
 	let options_new = $.extend({}, options);
-	if (that.hasOwnProperty('old_options')) {
+	if (that.old_options) {
 		console.log('old options');
 		console.log(that.old_options);
 		$.extend(options_new, that.old_options);
