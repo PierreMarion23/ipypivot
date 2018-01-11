@@ -88,7 +88,7 @@ var PivotUIView = widgets.DOMWidgetView.extend({
 
 		var message = document.createElement('div');
 		message.className = 'last-saved';
-		message.innerHTML = 'Last save ' + util.formatDate(new Date());
+		message.innerHTML = 'Last Save ' + util.formatDate(new Date());
 		buttons.appendChild(message);
 		this.message = message;
 
@@ -100,7 +100,7 @@ var PivotUIView = widgets.DOMWidgetView.extend({
 	options_changed: function () {
 		console.log('options changed');
 		var that = this;
-		that.message.innerHTML = 'Last save ' + util.formatDate(new Date());
+		that.message.innerHTML = 'Last Save ' + util.formatDate(new Date());
 		pivot_table.call_pivottablejs(that, 'pivotui', 'update');
 	},
 
