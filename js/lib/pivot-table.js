@@ -74,8 +74,6 @@ var call_pivottablejs = function (that, mode) {
 
 	// get data from model
 	let data = that.model.get('_data');
-	console.log('_data');
-	console.log(data);
 
 	// get options
 	let options = that.model.get('_options');
@@ -95,16 +93,15 @@ var call_pivottablejs = function (that, mode) {
 		// renderers = $.extend(renderers, $.pivotUtilities.export_renderers);
 		options_new['renderers'] = renderers;
 	}
+	// console.log(options_new);
 
 	// actual pivottable.js call
 	if (mode == 'pivot') {
 		console.log('call pivot');
-		console.log(options_new);
 		$(that.tableElmt).pivot(data, options_new);
 	}
 	if (mode == 'pivotui') {
 		console.log('call pivotui');
-		console.log(options_new);
 		$(that.tableElmt).pivotUI(data, options_new, true);
 	}
 
@@ -122,11 +119,11 @@ var save_to_model = function (that) {
 	console.log('jupyter-widget-pivot-table start save_to_model');
 
 	// get data from model
-	let data = that.model.get('_data');	
+	let data = that.model.get('_data');
 
 	// deepcopy current pivotUI options
 	let optionsExport = $.extend({}, $(that.tableElmt).data('pivotUIOptions'));
-	console.log(optionsExport);
+	// console.log(optionsExport);
 
 	// add only TSV export renderer
 	optionsExport['renderers'] = $.pivotUtilities.export_renderers;
@@ -155,10 +152,10 @@ var save_to_model = function (that) {
 
 			// actual pivottable.js call to collect current options
 			let options = $(that.tableElmt).data('pivotUIOptions');
-			console.log(options);
+			// console.log(options);
 
 			// merge current options with old options in order to replace true functions by their strings
-		 	delete options['aggregators'];
+			delete options['aggregators'];
 			delete options['renderers'];
 			delete options['sorters'];
 			delete options['derivedAttributes'];
@@ -166,9 +163,9 @@ var save_to_model = function (that) {
 
 			let old_options = that.model.get('_options');
 			options = $.extend({}, old_options, options);
-			console.log(options)
-			console.log('setting in model');
+			// console.log(options);
 
+			console.log('update model');
 			that.model.set({
 				'_data_tsv': data_tsv,
 				'_options': options
