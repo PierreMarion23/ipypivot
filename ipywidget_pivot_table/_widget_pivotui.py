@@ -2,7 +2,6 @@
 import ipywidgets as widgets
 import pandas as pd
 
-from copy import deepcopy
 from traitlets import observe
 from traitlets import Unicode, Dict, List, Int
 
@@ -10,6 +9,9 @@ from io import StringIO
 
 from ._options import PivotUI_Options
 from ._widget_util import shape_df
+
+
+# from IPython.display import display
 
 
 @widgets.register
@@ -27,16 +29,17 @@ class PivotUI(widgets.DOMWidget):
     _data_tsv = Unicode('Empty').tag(sync=True)
     _counter = Int(0)
 
-    @observe('data_tsv')
+    @observe('_data_tsv')
     def tsv_to_df(self, change):
         # print(change['old'])
         # print(change['new'])
-        df_tsv = pd.read_csv(StringIO(self.data_tsv),
+        df_tsv = pd.read_csv(StringIO(self._data_tsv),
                              sep=r'\t',
                              lineterminator=r'\n',
                              engine='python')
         self.df_export = shape_df(df_tsv,
-                                  self.options)
+                                  self._options)
+        # display(self.df_export)
 
     def __init__(self,
                  df_data=None):
