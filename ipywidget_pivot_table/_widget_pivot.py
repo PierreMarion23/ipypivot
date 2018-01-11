@@ -42,5 +42,5 @@ class Pivot(widgets.DOMWidget):
 
     @observe('_counter')
     def change_options(self, change):
-        print('change')
+        # print('change')
         self._options = self.options.to_dict()
