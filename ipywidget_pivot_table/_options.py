@@ -17,7 +17,10 @@ class Pivot_Options(Wrapper):
     def __setattr__(self, attr, value):
         object.__setattr__(self, attr, value)
         if attr != '_pivot' and attr != 'path' and attr != 'state':     # necessary to avoid errors
-            self._pivot.counter += 1
+            self._pivot._counter += 1
+
+    def __repr__(self):
+        return str(self.to_dict())
 
 
 class PivotUI_Options(Wrapper):
@@ -34,5 +37,7 @@ class PivotUI_Options(Wrapper):
     def __setattr__(self, attr, value):
         object.__setattr__(self, attr, value)
         if attr != '_pivot' and attr != 'path' and attr != 'state':     # necessary to avoid errors
-            self._pivot.counter += 1
+            self._pivot._counter += 1
 
+    def __repr__(self):
+        return str(self.to_dict())

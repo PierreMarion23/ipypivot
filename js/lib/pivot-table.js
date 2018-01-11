@@ -73,10 +73,12 @@ var call_pivottablejs = function (that, mode) {
 	console.log('jupyter-widget-pivot-table PivotUIModel start call_pivottablejs');
 
 	// get data from model
-	let data = that.model.get('data');
+	let data = that.model.get('_data');
+	console.log('_data');
+	console.log(data);
 
 	// get options
-	let options = that.model.get('options');
+	let options = that.model.get('_options');
 	options = util.JSONPivotTable.parse(JSON.stringify(options));
 
 	// treat specifically difficult cases
@@ -150,7 +152,7 @@ var save_to_model = function (that) {
 	console.log('jupyter-widget-pivot-table start save_to_model');
 
 	// get data from model
-	let data = that.model.get('data');
+	let data = that.model.get('_data');	
 
 	// deepcopy current pivotUI options
 	let optionsExport = $.extend({}, $(that.tableElmt).data('pivotUIOptions'));
@@ -195,8 +197,8 @@ var save_to_model = function (that) {
 			that.old_options = $.extend({}, options);
 
 			that.model.set({
-				'data_tsv': data_tsv,
-				'options': options
+				'_data_tsv': data_tsv,
+				'_options': options
 			});
 
 			// that.model.save_changes();

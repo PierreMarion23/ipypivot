@@ -33,9 +33,9 @@ var PivotUIModel = widgets.DOMWidgetModel.extend({
 		_view_module: 'ipywidget-pivot-table',
 		_model_module_version: '~0.1.0',
 		_view_module_version: '~0.1.0',
-		data: [],
-		options: {},
-		data_tsv: '',
+		_data: [],
+		_options: {},
+		_data_tsv: '',
 	})
 });
 
@@ -52,7 +52,7 @@ var PivotUIView = widgets.DOMWidgetView.extend({
 		pivot_table.createPivotUI(that);
 
 		// event listener
-		that.model.on('change:options', that.options_changed, that);
+		that.model.on('change:_options', that.options_changed, that);
 
 
 		// debug
