@@ -25,7 +25,7 @@ See the [demo notebook](notebooks/demo_pivot_table.ipynb) for examples and expla
 In short:
 + The 2 pivotTable.js functions `pivot()` and `pivotUI()` are tranparently accessible.  
 + The data is expected in [pandas DataFrame](https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html) format.  
-+ The options are input as (1) a Python dictionary or (2) an option helper object (`Pivot_Options` or `PivotUI_Options`)  
++ The options are input as an option helper object (`Pivot_Options` or `PivotUI_Options`)  
 + _Note_: the range of possible options for `pivot()` and `pivotUI()` differ - but there is overlap.
 
 
@@ -36,22 +36,20 @@ df = pd.DataFrame(data=[{'color': 'blue', 'shape': 'circle'},
                         {'color': "red", 'shape': 'triangle'}])
 
 # pivot()
-# options as dict
-options = {'rows': ['color'],
-           'cols': ['shape']}
-p = pt.Pivot(df_data=df, options=options)
-p.show()
-
-# pivotUI
-# options as PivotUI_Options
-opts = pt.PivotUI_Options()
+p = pt.Pivot(df_data=df)
+opts = p.options
 opts.rows = ['color']
 opts.cols = ['shape']
-p = pt.PivotUI(df_data=df, options=opts)
-p.show()
+display(p)
+
+# pivotUI
+p = pt.PivotUI(df_data=df)
+opts = p.options
+opts.rows = ['color']
+opts.cols = ['shape']
+display(p)
 ```
 
 ## 4 - Credit
 
-This repo is the result from a collaboration between [oscar6echo](https://github.com/oscar6echo), [ocoudray](https://github.com/ocoudray), and myself.
-
+This repo is the result from a collaboration between [oscar6echo](https://github.com/oscar6echo), [ocoudray](https://github.com/ocoudray), and [PierreMarion23](https://github.com/PierreMarion23).
