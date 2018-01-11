@@ -81,38 +81,8 @@ var call_pivottablejs = function (that, mode) {
 	let options = that.model.get('_options');
 	options = util.JSONPivotTable.parse(JSON.stringify(options));
 
-	// treat specifically difficult cases
-	if (options.aggregators && Object.keys(options.aggregators).length == 0) {
-		delete options['aggregators'];
-	}
-	if (options.renderers && Object.keys(options.renderers).length == 0) {
-		delete options['renderers'];
-	}
-	if (options.sorters && Object.keys(options.sorters).length == 0) {
-		delete options['sorters'];
-	}
-	if (options.derivedAttributes && Object.keys(options.derivedAttributes).length == 0) {
-		delete options['derivedAttributes'];
-	}
-
-	// add those prop under rendererOptions which were dropped in the view->model transmission
-	if (options.rendererOptions && (that.old_options)) {
-		console.log('modify renderOptions');
-		for (var key in options['rendererOptions']) {
-			if (that.old_options['rendererOptions'].hasOwnProperty(key) && Object.keys(options['rendererOptions'][key]).length == 0) {
-				options['rendererOptions'][key] = $.extend({}, that.old_options['rendererOptions'][key]);
-			}
-		}
-	}
-
-	// recall old options for functions that were dropped in the save process
+	// copy dic
 	let options_new = $.extend({}, options);
-	if (that.old_options) {
-		console.log('old options');
-		console.log(that.old_options);
-		$.extend(options_new, that.old_options);
-		$.extend(options_new, options);
-	}
 
 	// if no renderer present add them
 	if (!options_new['renderers']) {
@@ -187,14 +157,17 @@ var save_to_model = function (that) {
 			let options = $(that.tableElmt).data('pivotUIOptions');
 			console.log(options);
 
-			// NOTE: We do NOT stringify options functions
-			// they are naturally dropped in the view-model transmission
-			// options = JSON.parse(util.JSONPivotTable.stringify(options));
+			// merge current options with old options in order to replace true functions by their strings
+		 	delete options['aggregators'];
+			delete options['renderers'];
+			delete options['sorters'];
+			delete options['derivedAttributes'];
+			delete options['rendererOptions'];
 
-			// save options due to the problem above
-			// ie remember the functions that may be dropped
-			// in the view-model transmission
-			that.old_options = $.extend({}, options);
+			let old_options = that.model.get('_options');
+			options = $.extend({}, old_options, options);
+			console.log(options)
+			console.log('setting in model');
 
 			that.model.set({
 				'_data_tsv': data_tsv,
