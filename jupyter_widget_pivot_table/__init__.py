@@ -10,6 +10,6 @@ def _jupyter_nbextension_paths():
     return [{
         'section': 'notebook',
         'src': 'static',
-        'dest': 'ipywidget-pivot-table',
-        'require': 'ipywidget-pivot-table/extension'
+        'dest': 'jupyter-widget-pivot-table',
+        'require': 'jupyter-widget-pivot-table/extension'
     }]

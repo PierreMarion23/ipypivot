@@ -66,8 +66,8 @@ class NPM(Command):
     node_modules = os.path.join(node_root, 'node_modules')
 
     targets = [
-        os.path.join(here, 'ipywidget_pivot_table', 'static', 'extension.js'),
-        os.path.join(here, 'ipywidget_pivot_table', 'static', 'index.js')
+        os.path.join(here, 'jupyter_widget_pivot_table', 'static', 'extension.js'),
+        os.path.join(here, 'jupyter_widget_pivot_table', 'static', 'index.js')
     ]
 
     def initialize_options(self):
@@ -121,20 +121,20 @@ class NPM(Command):
         update_package_data(self.distribution)
 
 version_ns = {}
-with open(os.path.join(here, 'ipywidget_pivot_table', '_version.py')) as f:
+with open(os.path.join(here, 'jupyter_widget_pivot_table', '_version.py')) as f:
     exec(f.read(), {}, version_ns)
 
 setup_args = {
-    'name': 'ipywidget_pivot_table',
+    'name': 'jupyter_widget_pivot_table',
     'version': version_ns['__version__'],
     'description': 'This is a jupyter widget (or ipywidget) wrapping the very convenient pivotTable.js library.',
     'long_description': LONG_DESCRIPTION,
     'include_package_data': True,
     'data_files': [
-        ('share/jupyter/nbextensions/ipywidget-pivot-table', [
-            'ipywidget_pivot_table/static/extension.js',
-            'ipywidget_pivot_table/static/index.js',
-            'ipywidget_pivot_table/static/index.js.map',
+        ('share/jupyter/nbextensions/jupyter-widget-pivot-table', [
+            'jupyter_widget_pivot_table/static/extension.js',
+            'jupyter_widget_pivot_table/static/index.js',
+            'jupyter_widget_pivot_table/static/index.js.map',
         ]),
     ],
     'install_requires': [

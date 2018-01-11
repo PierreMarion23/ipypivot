@@ -1,28 +1,28 @@
 # Installation Guide
 
-This is a step by step guide to install, enable and publish the [ipywidget](https://ipywidgets.readthedocs.io/en/stable/) `ipywidget-pivot-table`.
+This is a step by step guide to install, enable and publish the [ipywidget](https://ipywidgets.readthedocs.io/en/stable/) `jupyter-widget-pivot-table`.
 
 ## 1 - Installation
 
 To install use pip and npm:
 
     $ git clone https://github.com/PierreMarion23/pivot-table-widget.git
-    $ cd ipywidget_pivot_table/js
+    $ cd jupyter_widget_pivot_table/js
     $ npm install
     $ cd ..
     $ pip install .
-    $ jupyter nbextension enable --py --sys-prefix ipywidget_pivot_table
+    $ jupyter nbextension enable --py --sys-prefix jupyter_widget_pivot_table
 
 
 For a development installation:
 
     $ git clone https://github.com/PierreMarion23/pivot-table-widget.git
-    $ cd ipywidget_pivot_table/js
+    $ cd jupyter_widget_pivot_table/js
     $ npm install
     $ cd ..
     $ pip install -e .
-    $ jupyter nbextension install --py --symlink --sys-prefix ipywidget_pivot_table
-    $ jupyter nbextension enable --py --sys-prefix ipywidget_pivot_table
+    $ jupyter nbextension install --py --symlink --sys-prefix jupyter_widget_pivot_table
+    $ jupyter nbextension enable --py --sys-prefix jupyter_widget_pivot_table
 
 ## 2 - Paths
 
@@ -50,11 +50,11 @@ The flag `--sys-prefix` means extension are installed in this data folder:
 
     /usr/local/anaconda3/share/jupyter
 
-There you can see a `ipywidget-pivot-table` folder or symlink back to the source folder `static/`.  
+There you can see a `jupyter-widget-pivot-table` folder or symlink back to the source folder `static/`.  
 For example:
 
     drwxr-xr-x  4 Olivier  staff   136B Sep 30 18:09 jupyter-js-widgets/
-    drwxr-xr-x  5 Olivier  staff   170B Oct  3 02:42 ipywidget-pivot-table/
+    drwxr-xr-x  5 Olivier  staff   170B Oct  3 02:42 jupyter-widget-pivot-table/
 
 To check nbextensions are properly install and enabled, for example:
 
@@ -72,7 +72,7 @@ To check nbextensions are properly install and enabled, for example:
         notebook section
         jupyter-js-widgets/extension  enabled 
         - Validating: OK
-        ipywidget-pivot-table/extension  enabled 
+        jupyter-widget-pivot-table/extension  enabled 
         - Validating: OK
 
 
@@ -88,7 +88,7 @@ It performs the following:
 The first step is the `npm install` command per se.  
 The second is the `prepare` command as defined in `package.json`. And `npm prepare` is automatically executed after npm install as explained in the [official doc](https://docs.npmjs.com/misc/scripts).
 
-The result is the creation of folders `js/dist` and `ipywidget_pivot_table/static` containing compiled javascript from source code in folder `js/`.
+The result is the creation of folders `js/dist` and `jupyter_widget_pivot_table/static` containing compiled javascript from source code in folder `js/`.
 
 ### 3.2 - `pip install`
 
@@ -105,27 +105,27 @@ This command must be run **AFTER** the folder `static/` was created.
 
 It is a standard `pip install` command:
 + The source files and egg-info are copied to `/usr/local/anaconda3/lib/python3.6/site-packages`
-+ The files in folder `static/` are copied to `share/jupyter/nbextensions/ipywidget-pivot-table`
++ The files in folder `static/` are copied to `share/jupyter/nbextensions/jupyter-widget-pivot-table`
 + Note that for a **dev install**:
     + An `egg-link` file links back to the source folder
-    + No file is copied to the folder `nbextensions/ipywidget-pivot-table`
+    + No file is copied to the folder `nbextensions/jupyter-widget-pivot-table`
     + Thanks to the `--symlink`, during dev, you just need to restart the kernel to take into account any modification in the Python code!
 
 ### 3.3 - `jupyter nbextension (install|uninstall)`
 
 The full command is:
 ```bash
-$ jupyter nbextension (install|uninstall) --py [--symlink] --sys-prefix ipywidget_pivot_table
+$ jupyter nbextension (install|uninstall) --py [--symlink] --sys-prefix jupyter_widget_pivot_table
 ```
 
-It copies [create symlinks] resp. removes `static/` files to resp. from the nbextension data folder `share/jupyter/nbextensions/ipywidget-pivot-table` and adds resp. removes lines in config file `notebook.json` in config directory `/usr/local/anaconda3/etc/jupyter`.
+It copies [create symlinks] resp. removes `static/` files to resp. from the nbextension data folder `share/jupyter/nbextensions/jupyter-widget-pivot-table` and adds resp. removes lines in config file `notebook.json` in config directory `/usr/local/anaconda3/etc/jupyter`.
 
 The config file `notebook.json` contains the following:
 
     {
         "load_extensions": {
             "jupyter-js-widgets/extension": true,
-            "ipywidget-pivot-table/extension": true
+            "jupyter-widget-pivot-table/extension": true
         }
     }
 
@@ -134,10 +134,10 @@ The config file `notebook.json` contains the following:
 
 The full command is:
 ```bash
-$ jupyter nbextension (enable|disable) --py --sys-prefix ipywidget_pivot_table
+$ jupyter nbextension (enable|disable) --py --sys-prefix jupyter_widget_pivot_table
 ```
 
-It sets to true resp. false the `ipywidget-pivot-table/extension` line in config file `notebook.json` in config directory `/usr/local/anaconda3/etc/jupyter`.
+It sets to true resp. false the `jupyter-widget-pivot-table/extension` line in config file `notebook.json` in config directory `/usr/local/anaconda3/etc/jupyter`.
 
 ### 3.5 - `npm run prepare`
 
@@ -150,7 +150,7 @@ It is a script (which simply calls `webpack`) in npm config file `package.json`.
 
 In an active dev activity (in the folder `js/`) substitute `npm install` by `npm run prepare` as there is no need to reload node_modules from the internet or even to get them from the local npm cache (located in `~/.npm`)
 
-This re-compile the source js folder into `static/`. The symlinks bring back from `share/jupyter/nbextensions/ipywidget-pivot-table` to `js/static/`. So just reload the notebook. The new js is available instantly !
+This re-compile the source js folder into `static/`. The symlinks bring back from `share/jupyter/nbextensions/jupyter-widget-pivot-table` to `js/static/`. So just reload the notebook. The new js is available instantly !
 
 ### 3.6 - `npm run watch`
 
@@ -168,7 +168,7 @@ In order to publish a first version of your widget on PyPI:
 + `twine upload dist/*`
 
 To upload a new version of your widget:
-+ change version in `ipywidget_pivot_table/_version.py`
++ change version in `jupyter_widget_pivot_table/_version.py`
 + delete `dist`
 + `python setup.py sdist`
 + `twine upload dist/*`

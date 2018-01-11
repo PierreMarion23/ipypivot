@@ -1,5 +1,5 @@
 {
-  "name": "ipywidget-pivot-table",
+  "name": "jupyter-widget-pivot-table",
   "version": "0.1.0",
   "description": "A Custom Jupyter Widget Library",
   "author": "oscar6echo",
@@ -20,7 +20,7 @@
     "dist/*.js"
   ],
   "scripts": {
-    "clean": "rimraf dist/ && rimraf ../ipywidget_pivot_table/static/",
+    "clean": "rimraf dist/ && rimraf ../jupyter_widget_pivot_table/static/",
     "cleanall": "npm run clean && rimraf node_modules/",
     "prepare": "webpack",
     "watch": "watch 'npm run prepare' lib/",

@@ -29,8 +29,8 @@ var PivotUIModel = widgets.DOMWidgetModel.extend({
 	defaults: $.extend(widgets.DOMWidgetModel.prototype.defaults(), {
 		_model_name: 'PivotUIModel',
 		_view_name: 'PivotUIView',
-		_model_module: 'ipywidget-pivot-table',
-		_view_module: 'ipywidget-pivot-table',
+		_model_module: 'jupyter-widget-pivot-table',
+		_view_module: 'jupyter-widget-pivot-table',
 		_model_module_version: '~0.1.0',
 		_view_module_version: '~0.1.0',
 		_data: [],
