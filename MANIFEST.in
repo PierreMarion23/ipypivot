@@ -1,4 +1,5 @@
-# note necessary as covered by setup data_files
+
+# js
 recursive-include jupyter_widget_pivot_table/static *.*
 
 # subfolders
@@ -6,7 +7,7 @@ recursive-include jupyter_widget_pivot_table/api *.json
 recursive-include jupyter_widget_pivot_table/data *.csv
 recursive-include jupyter_widget_pivot_table/markdown *.md
 
-global-exclude *.py[co]
-
 # Misc
+include requirements.txt
 include LICENSE
+global-exclude *.py[co]
