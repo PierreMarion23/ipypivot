@@ -2,6 +2,7 @@
 'use strict';
 
 var widgets = require('@jupyter-widgets/base');
+var ipywidgets = require('@jupyter-widgets/controls');
 var $ = require('jquery');
 var pivot_table = require('./pivot-table');
 var util = require('./util');
@@ -57,58 +58,73 @@ var PivotUIView = widgets.DOMWidgetView.extend({
 
 		// debug
 		window.dom = that.el;
-
-		var button_save_clicked = function () {
-			console.log('jupyter-widget-pivot-table PivotUIModel start button_save_clicked');
-
-			// save triggers all views rendering
-			pivot_table.save_to_model(that);
-		};
-
-		var button_restore_clicked = function () {
-			console.log('jupyter-widget-pivot-table PivotUIModel start button_restore_cliked');
-
-			// call_pivottablejs
-			pivot_table.call_pivottablejs(that, 'pivotui', 'update');
-		};
-
-
-		var buttons = document.createElement('div');
-		buttons.setAttribute('class', 'pivot-buttons');
-
-		var button_save = document.createElement('button');
-		button_save.addEventListener('click', button_save_clicked);
-		button_save.innerHTML = 'Save';
-		buttons.appendChild(button_save);
-
-		var button_restore = document.createElement('button');
-		button_restore.addEventListener('click', button_restore_clicked);
-		button_restore.innerHTML = 'Restore';
-		buttons.appendChild(button_restore);
-
-		var message = document.createElement('div');
-		message.className = 'last-saved';
-		message.innerHTML = 'Last Save ' + util.formatDate(new Date());
-		buttons.appendChild(message);
-		this.message = message;
-
-		// this.el.appendChild(buttons);
-		this.el.insertBefore(buttons, this.el.firstChild);
-
 	},
 
 	options_changed: function () {
 		console.log('options changed');
 		var that = this;
-		that.message.innerHTML = 'Last Save ' + util.formatDate(new Date());
 		pivot_table.call_pivottablejs(that, 'pivotui', 'update');
 	},
 
 
 });
 
+var PivotBoxModel = ipywidgets.VBoxModel.extend({
+	defaults: $.extend(ipywidgets.VBoxModel.prototype.defaults(), {
+	})
+});
+
+var PivotBoxView = ipywidgets.VBoxView.extend({
+	render:function(){
+		console.log("START RENDERING")
+		window.boxview = this; // debug
+		ipywidgets.VBoxView.prototype.render.call(this); // call default render
+
+		this.childrenviews = this.children_views.views;  // get children views
+		// console.log(this.childrenviews);
+		
+		var that = this; // explicit
+		this.childrenviews[1].then(function(view_pivot){
+			that.view_pivot = view_pivot;
+			var button_save_clicked = function () {
+				console.log('jupyter-widget-pivot-table PivotUIModel start button_save_clicked');
+				// save triggers all views rendering
+				pivot_table.save_to_model(view_pivot);
+			};
+			var button_restore_clicked = function () {
+				console.log('jupyter-widget-pivot-table PivotUIModel start button_restore_cliked');
+				// call_pivottablejs
+				pivot_table.call_pivottablejs(view_pivot, 'pivotui', 'update');
+			};
+			that.childrenviews[0].then(function(view_buttons){
+				console.log("Hbox view found");
+				console.log(view_buttons);
+				view_buttons.children_views.views[0].then(function(button_save){
+					console.log("Button save found")
+					console.log(button_save)
+					// add new event listener
+					button_save.el.addEventListener('click', button_save_clicked)
+				})
+				view_buttons.children_views.views[1].then(function(button_restore){
+					console.log("Button restore found")
+					console.log(button_restore)
+					// add new event listener
+					button_restore.el.addEventListener('click', button_restore_clicked)
+				})
+
+			})
+		})
+	}
+});
+
+// debug
+// console.log(PivotBoxModel)
+
 module.exports = {
 	PivotUIModel: PivotUIModel,
-	PivotUIView: PivotUIView
+	PivotUIView: PivotUIView,
+	PivotBoxModel: PivotBoxModel,
+	PivotBoxView: PivotBoxView
 };
+
 

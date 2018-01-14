@@ -3,6 +3,7 @@ from .__meta__ import __version__
 
 from ._widget_pivot import Pivot
 from ._widget_pivotui import PivotUI
+from ._widget_box_pivotui import PivotUI_Box
 from ._options import Pivot_Options, PivotUI_Options
 from ._sample import samples
 

@@ -10,4 +10,6 @@ module.exports = {
 	PivotView: pivot.PivotView,
 	PivotUIModel: pivotui.PivotUIModel,
 	PivotUIView: pivotui.PivotUIView,
+	PivotBoxModel: pivotui.PivotBoxModel,
+	PivotBoxView: pivotui.PivotBoxView
 };
