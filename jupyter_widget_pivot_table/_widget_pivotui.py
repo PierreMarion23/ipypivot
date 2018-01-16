@@ -16,7 +16,7 @@ from ._widget_util import shape_df
 
 @widgets.register
 class PivotUI(widgets.DOMWidget):
-    """An example widget."""
+    """PivotUI widget"""
     _view_name = Unicode('PivotUIView').tag(sync=True)
     _model_name = Unicode('PivotUIModel').tag(sync=True)
     _view_module = Unicode('jupyter-widget-pivot-table').tag(sync=True)
