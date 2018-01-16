@@ -35,10 +35,8 @@ class PivotUIBox(VBox):
         self.button_restore = Button(description='Restore',
                                      layout=Layout(width='100px'))
 
-        # self.html = HTML(value='',
-        #                  layout=Layout(width='200px'))
         self.status = widgets.Text(value='',
-                                   disabled=False,
+                                   disabled=True,
                                    layout=widgets.Layout(width='160px'))
 
         def on_save_clicked(b):
