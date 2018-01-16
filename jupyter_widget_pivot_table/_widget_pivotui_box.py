@@ -35,17 +35,20 @@ class PivotUIBox(VBox):
         self.button_restore = Button(description='Restore',
                                      layout=Layout(width='100px'))
 
-        self.html = HTML(value='',
-                         layout=Layout(width='200px'))
+        # self.html = HTML(value='',
+        #                  layout=Layout(width='200px'))
+        self.status = widgets.Text(value='',
+                                   disabled=False,
+                                   layout=widgets.Layout(width='160px'))
 
         def on_save_clicked(b):
             msg = 'Last Save: <b>{}</b>'
             msg = msg.format(self._now())
-            self.html.value = msg
+            self.status.value = 'Last Save: ' + self._now()
 
         self.button_save.on_click(on_save_clicked)
 
-        items = [self.button_save, self.button_restore, self.html]
+        items = [self.button_save, self.button_restore, self.status]
 
         box_layout = Layout(display='flex',
                             justify_content='space-around',
@@ -64,4 +67,4 @@ class PivotUIBox(VBox):
     def _now():
         """
         """
-        return dt.datetime.now().strftime('%d %h %H:%M:%S')
+        return dt.datetime.now().strftime('%H:%M:%S')
