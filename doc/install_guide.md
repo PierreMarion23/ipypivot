@@ -157,21 +157,51 @@ This re-compile the source js folder into `static/`. The symlinks bring back fro
 To automate the build (i.e. running webpack) process start `npm run watch`.  
 It will run in the background and trigger `npm run prepare` each time any change occurs in the `js/lib/` folder.  
 
-## 4 - Publish on PyPI 
 
-A few comments on the release process are available in the RELEASE.md file. Below is our experience on the matter of publishing on PyPI:
+## 4 - Publish
 
-In order to publish a first version of your widget on PyPI:
-+ Create an account on [PyPI](https://pypi.python.org/pypi?%3Aaction=register_form)
-+ `pip install twine` (if not already installed)
-+ `python setup.py sdist`
-+ `twine upload dist/*`
 
-To upload a new version of your widget:
-+ change version in `ipypivot/_version.py`
-+ delete `dist`
-+ `python setup.py sdist`
-+ `twine upload dist/*`
+In addition to a regular Python packages, the Javascript part can be published too.  
+The latter is useful only to use jupyter widgets in a non-notebook context.  
 
-The full documentation can be found [here](https://packaging.python.org/tutorials/distributing-packages/).
+### 4.1 - Publish new version of ipypivot on PyPI
 
+```bash
+# Update version in __meta__.py
+# git add and commit and push
+
+# from top folder
+python setup.py sdist upload -r pypi
+
+# tag version
+git tag -a X.X.X -m 'comment'
+git push --tags
+```
+
+
+### 4.2 - Publish new version of ipypivot on NPM
+
+
+```bash
+# from js/ folder
+
+# clean out the dist/ and node_modules/ folders
+# for example to remove any git untracked file/folder: 
+# git clean -fdx
+
+# Update version in package.json
+
+npm install
+
+# test run to see what you will publish
+# npm pack
+
+# before publishing
+# create a user if necessary 
+# login npm
+# ref: https://docs.npmjs.com/getting-started/publishing-npm-packages
+
+npm publish
+
+# check out the result on https://www.npmjs.com/
+```
