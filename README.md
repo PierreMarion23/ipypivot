@@ -50,6 +50,14 @@ opts.cols = ['shape']
 display(p)
 ```
 
-## 4 - Credit
+## 4 - Alternative
+
+The repo branch `alt` contains an alternative widget PivotUI widget.  
+It has the same the same features but is implemented in pure web (buttons and 'Last Save' fields).  
+As opposed to the master branch which implements a combo of core and custom widgets.  
+The latter is more modular and flexible. In this case it is also slightly more complex.  
+But it may serve as an example for building a Jupyter widget from several component widgets.
+
+## 5 - Credit
 
 This repo is the result from a collaboration between [oscar6echo](https://github.com/oscar6echo), [ocoudray](https://github.com/ocoudray), and [PierreMarion23](https://github.com/PierreMarion23).
