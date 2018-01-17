@@ -29,8 +29,8 @@ var PivotUIModel = widgets.DOMWidgetModel.extend({
 	defaults: $.extend(widgets.DOMWidgetModel.prototype.defaults(), {
 		_model_name: 'PivotUIModel',
 		_view_name: 'PivotUIView',
-		_model_module: 'jupyter-widget-pivot-table',
-		_view_module: 'jupyter-widget-pivot-table',
+		_model_module: 'ipypivot',
+		_view_module: 'ipypivot',
 		_model_module_version: '~0.1.0',
 		_view_module_version: '~0.1.0',
 		_data: [],
@@ -43,7 +43,7 @@ var PivotUIView = widgets.DOMWidgetView.extend({
 
 	render: function () {
 
-		console.log('jupyter-widget-pivot-table PivotUIModel start render');
+		console.log('ipypivot PivotUIModel start render');
 
 		// explicit
 		var that = this;
@@ -59,14 +59,14 @@ var PivotUIView = widgets.DOMWidgetView.extend({
 		window.dom = that.el;
 
 		var button_save_clicked = function () {
-			console.log('jupyter-widget-pivot-table PivotUIModel start button_save_clicked');
+			console.log('ipypivot PivotUIModel start button_save_clicked');
 
 			// save triggers all views rendering
 			pivot_table.save_to_model(that);
 		};
 
 		var button_restore_clicked = function () {
-			console.log('jupyter-widget-pivot-table PivotUIModel start button_restore_cliked');
+			console.log('ipypivot PivotUIModel start button_restore_cliked');
 
 			// call_pivottablejs
 			pivot_table.call_pivottablejs(that, 'pivotui', 'update');
