@@ -54,10 +54,4 @@ display(p)
 
 ## 4 - Credit
 
-<<<<<<< HEAD
 This repo is the result from a collaboration between [oscar6echo](https://github.com/oscar6echo), [ocoudray](https://github.com/ocoudray), and myself.
-
-
-=======
-This repo is the result from a collaboration between [oscar6echo](https://github.com/oscar6echo), [ocoudray](https://github.com/ocoudray), and [PierreMarion23](https://github.com/PierreMarion23).
->>>>>>> dev
