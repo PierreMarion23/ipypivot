@@ -19,8 +19,8 @@ class PivotUI(widgets.DOMWidget):
     """PivotUI widget"""
     _view_name = Unicode('PivotUIView').tag(sync=True)
     _model_name = Unicode('PivotUIModel').tag(sync=True)
-    _view_module = Unicode('jupyter-widget-pivot-table').tag(sync=True)
-    _model_module = Unicode('jupyter-widget-pivot-table').tag(sync=True)
+    _view_module = Unicode('ipypivot').tag(sync=True)
+    _model_module = Unicode('ipypivot').tag(sync=True)
     _view_module_version = Unicode('^0.1.0').tag(sync=True)
     _model_module_version = Unicode('^0.1.0').tag(sync=True)
 

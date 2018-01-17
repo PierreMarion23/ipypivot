@@ -14,7 +14,7 @@ from setuptools import setup, find_packages
 
 
 ##################################################
-module = 'jupyter_widget_pivot_table'
+module = 'ipypivot'
 ##################################################
 
 # get version from __meta__
@@ -58,10 +58,10 @@ classifiers = ['Development Status :: 4 - Beta',
                ]
 include_package_data = True
 data_files = [
-    ('share/jupyter/nbextensions/jupyter-widget-pivot-table', [
-        'jupyter_widget_pivot_table/static/extension.js',
-        'jupyter_widget_pivot_table/static/index.js',
-        'jupyter_widget_pivot_table/static/index.js.map',
+    ('share/jupyter/nbextensions/ipypivot', [
+        'ipypivot/static/extension.js',
+        'ipypivot/static/index.js',
+        'ipypivot/static/index.js.map',
     ]),
 ]
 install_requires = install_requires

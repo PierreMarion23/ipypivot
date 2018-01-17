@@ -27,7 +27,7 @@ var PivotUIBoxModel = ipywidgets.VBoxModel.extend({
 
 var PivotUIBoxView = ipywidgets.VBoxView.extend({
   render: function() {
-    console.log("jupyter-widget-pivot-table PivotUIModel start render");
+    console.log("ipypivot PivotUIModel start render");
 
     window.boxview = this; // debug
     ipywidgets.VBoxView.prototype.render.call(this); // call default render
@@ -43,7 +43,7 @@ var PivotUIBoxView = ipywidgets.VBoxView.extend({
 
       var button_save_clicked = function() {
         console.log(
-          "jupyter-widget-pivot-table PivotUIModel start button_save_clicked"
+          "ipypivot PivotUIModel start button_save_clicked"
         );
         // save triggers all views rendering
         pivot_table.save_to_model(view_pivot);
@@ -51,7 +51,7 @@ var PivotUIBoxView = ipywidgets.VBoxView.extend({
 
       var button_restore_clicked = function() {
         console.log(
-          "jupyter-widget-pivot-table PivotUIModel start button_restore_cliked"
+          "ipypivot PivotUIModel start button_restore_cliked"
         );
         // call_pivottablejs
         pivot_table.call_pivottablejs(view_pivot, "pivotui", "update");

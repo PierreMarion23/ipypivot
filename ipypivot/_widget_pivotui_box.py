@@ -14,8 +14,8 @@ class PivotUIBox(VBox):
     """PivotUI and save/restore buttons widget"""
     _view_name = Unicode('PivotUIBoxView').tag(sync=True)
     _model_name = Unicode('PivotUIBoxModel').tag(sync=True)
-    _view_module = Unicode('jupyter-widget-pivot-table').tag(sync=True)
-    _model_module = Unicode('jupyter-widget-pivot-table').tag(sync=True)
+    _view_module = Unicode('ipypivot').tag(sync=True)
+    _model_module = Unicode('ipypivot').tag(sync=True)
 
     def __init__(self,
                  df_data=None):

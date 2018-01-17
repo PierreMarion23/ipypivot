@@ -16,7 +16,7 @@ var util = require('./util');
 
 
 var createPivot = function (that) {
-	console.log('jupyter-widget-pivot-table start createPivot');
+	console.log('ipypivot start createPivot');
 
 	// create elmt
 	var divElmt = document.createElement('div');
@@ -38,7 +38,7 @@ var createPivot = function (that) {
 };
 
 var createPivotUI = function (that) {
-	console.log('jupyter-widget-pivot-table start createPivotUI');
+	console.log('ipypivot start createPivotUI');
 
 	// create elmt
 	var divElmt = document.createElement('div');
@@ -70,7 +70,7 @@ var call_pivottablejs = function (that, mode) {
 	// mode = 'pivot' - call from createPivot
 	// mode = 'pivotui' - call from createPivotUI
 
-	console.log('jupyter-widget-pivot-table PivotUIModel start call_pivottablejs');
+	console.log('ipypivot PivotUIModel start call_pivottablejs');
 
 	// get data from model
 	let data = that.model.get('_data');
@@ -116,7 +116,7 @@ var call_pivottablejs = function (that, mode) {
 
 var save_to_model = function (that) {
 
-	console.log('jupyter-widget-pivot-table start save_to_model');
+	console.log('ipypivot start save_to_model');
 
 	// get data from model
 	let data = that.model.get('_data');

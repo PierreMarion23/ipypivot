@@ -1,4 +1,4 @@
-# jupyter-widget-pivot-table
+# ipypivot
 
 ## 1 - Overview
 
@@ -12,8 +12,8 @@ An ipywidget is a Python package with some associated javascript files.
 As such the installation requires 2 step:
 
 ```bash
-$ pip install jupyter_widget_pivot_table
-$ jupyter nbextension enable --py --sys-prefix jupyter_widget_pivot_table
+$ pip install ipypivot
+$ jupyter nbextension enable --py --sys-prefix ipypivot
 ```
 
 For more info about the installation of this widget, and also tips about the development of custom jupyter widgets, see the [Install Guide](doc/install_guide.md).

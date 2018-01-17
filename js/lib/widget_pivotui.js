@@ -25,8 +25,8 @@ var PivotUIModel = widgets.DOMWidgetModel.extend({
   defaults: $.extend(widgets.DOMWidgetModel.prototype.defaults(), {
     _model_name: "PivotUIModel",
     _view_name: "PivotUIView",
-    _model_module: "jupyter-widget-pivot-table",
-    _view_module: "jupyter-widget-pivot-table",
+    _model_module: "ipypivot",
+    _view_module: "ipypivot",
     _model_module_version: "~0.1.0",
     _view_module_version: "~0.1.0",
     _data: [],
@@ -37,7 +37,7 @@ var PivotUIModel = widgets.DOMWidgetModel.extend({
 
 var PivotUIView = widgets.DOMWidgetView.extend({
   render: function() {
-    console.log("jupyter-widget-pivot-table PivotUIModel start render");
+    console.log("ipypivot PivotUIModel start render");
 
     // explicit
     var that = this;

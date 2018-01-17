@@ -1,11 +1,11 @@
 
 # js
-recursive-include jupyter_widget_pivot_table/static *.*
+recursive-include ipypivot/static *.*
 
 # subfolders
-recursive-include jupyter_widget_pivot_table/api *.json
-recursive-include jupyter_widget_pivot_table/data *.csv
-recursive-include jupyter_widget_pivot_table/markdown *.md
+recursive-include ipypivot/api *.json
+recursive-include ipypivot/data *.csv
+recursive-include ipypivot/markdown *.md
 
 # Misc
 include requirements.txt
