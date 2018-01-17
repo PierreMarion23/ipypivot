@@ -1,10 +1,11 @@
 
-'use strict';
+"use strict";
 
-var widgets = require('@jupyter-widgets/base');
-var $ = require('jquery');
-var pivot_table = require('./pivot-table');
-
+var widgets = require("@jupyter-widgets/base");
+var $ = require("jquery");
+var pivot_table = require("./pivot-table");
+// var util = require('./util');
+require("./style.css");
 
 // Custom Model. Custom widgets models must at least provide default values
 // for model attributes, including
@@ -22,42 +23,52 @@ var pivot_table = require('./pivot-table');
 // When serialiazing the entire widget state for embedding, only values that
 // differ from the defaults will be specified.
 
-
-
 var PivotModel = widgets.DOMWidgetModel.extend({
-	defaults: $.extend(widgets.DOMWidgetModel.prototype.defaults(), {
-		_model_name: 'PivotModel',
-		_view_name: 'PivotView',
-		_model_module: 'ipywidget-pivot-table',
-		_view_module: 'ipywidget-pivot-table',
-		_model_module_version: '~0.1.0',
-		_view_module_version: '~0.1.0',
-		data: [],
-		options_init: {},
-	})
+  defaults: $.extend(widgets.DOMWidgetModel.prototype.defaults(), {
+    _model_name: "PivotModel",
+    _view_name: "PivotView",
+    _model_module: "ipypivot",
+    _view_module: "ipypivot",
+    _model_module_version: "~0.1.0",
+    _view_module_version: "~0.1.0",
+    _data: [],
+    _options: {}
+  })
 });
 
 var PivotView = widgets.DOMWidgetView.extend({
-	render: function () {
+  render: function() {
+    console.log("ipypivot PivotModel start render");
 
-		console.log('jupyter-widget-pivot-table PivotModel start render');
+    // explicit
+    var that = this;
 
-		// explicit
-		var that = this;
+    // build pivottable and append it to dom
+    pivot_table.createPivot(that);
 
-		// build pivottable and append it to dom
-		pivot_table.createPivot(that);
+    // event listener
+    that.model.on("change:_options", that.options_changed, that);
 
-		// event listener
-		// none - case of static display
+    var message = document.createElement("div");
+    message.className = "last-saved";
+    // message.innerHTML = 'Last Save ' + util.formatDate(new Date());
+    this.message = message;
 
-		// debug
-		// window.dom = that.el;
-	},
+    this.el.insertBefore(message, this.el.firstChild);
+
+    // debug
+    // window.dom = that.el;
+  },
+
+  options_changed: function() {
+    console.log("options changed");
+    var that = this;
+    // that.message.innerHTML = 'Last Save ' + util.formatDate(new Date());
+    pivot_table.call_pivottablejs(that, "pivot", "update");
+  }
 });
 
 module.exports = {
-	PivotModel: PivotModel,
-	PivotView: PivotView
+  PivotModel: PivotModel,
+  PivotView: PivotView
 };
-

@@ -1,176 +1,89 @@
-from __future__ import print_function
-from setuptools import setup, find_packages, Command
-from setuptools.command.sdist import sdist
-from setuptools.command.build_py import build_py
-from setuptools.command.egg_info import egg_info
-from subprocess import check_call
-import os
-import sys
-import platform
 
-here = os.path.dirname(os.path.abspath(__file__))
-node_root = os.path.join(here, 'js')
-is_repo = os.path.exists(os.path.join(here, '.git'))
+# necessary to push to PyPI
+# cf. http://peterdowns.com/posts/first-time-with-pypi.html
+# cf. https://tom-christie.github.io/articles/pypi/
+# cf. https://pythonhosted.org/setuptools/setuptools.html
 
-npm_path = os.pathsep.join([
-    os.path.join(node_root, 'node_modules', '.bin'),
-                os.environ.get('PATH', os.defpath),
-])
-
-from distutils import log
-log.set_verbosity(log.DEBUG)
-log.info('setup.py entered')
-log.info('$PATH=%s' % os.environ['PATH'])
-
-LONG_DESCRIPTION = 'This is a jupyter widget (or ipywidget) wrapping the very convenient pivotTable.js library.'
-
-def js_prerelease(command, strict=False):
-    """decorator for building minified js/css prior to another command"""
-    class DecoratedCommand(command):
-        def run(self):
-            jsdeps = self.distribution.get_command_obj('jsdeps')
-            if not is_repo and all(os.path.exists(t) for t in jsdeps.targets):
-                # sdist, nothing to do
-                command.run(self)
-                return
-
-            try:
-                self.distribution.run_command('jsdeps')
-            except Exception as e:
-                missing = [t for t in jsdeps.targets if not os.path.exists(t)]
-                if strict or missing:
-                    log.warn('rebuilding js and css failed')
-                    if missing:
-                        log.error('missing files: %s' % missing)
-                    raise e
-                else:
-                    log.warn('rebuilding js and css failed (not a problem)')
-                    log.warn(str(e))
-            command.run(self)
-            update_package_data(self.distribution)
-    return DecoratedCommand
-
-def update_package_data(distribution):
-    """update package_data to catch changes during setup"""
-    build_py = distribution.get_command_obj('build_py')
-    # distribution.package_data = find_package_data()
-    # re-init build_py options which load package_data
-    build_py.finalize_options()
+# commands:
+# python setup.py sdist upload -r testpypi
+# python setup.py sdist upload -r pypi
 
 
-class NPM(Command):
-    description = 'install package.json dependencies using npm'
+from distutils.util import convert_path
+from setuptools import setup, find_packages
 
-    user_options = []
 
-    node_modules = os.path.join(node_root, 'node_modules')
+##################################################
+module = 'ipypivot'
+##################################################
 
-    targets = [
-        os.path.join(here, 'ipywidget_pivot_table', 'static', 'extension.js'),
-        os.path.join(here, 'ipywidget_pivot_table', 'static', 'index.js')
-    ]
+# get version from __meta__
+meta_ns = {}
+path = convert_path(module + '/__meta__.py')
+with open(path) as meta_file:
+    exec(meta_file.read(), meta_ns)
 
-    def initialize_options(self):
-        pass
 
-    def finalize_options(self):
-        pass
+# read requirements.txt
+with open('requirements.txt', 'r') as f:
+    content = f.read()
+li_req = content.split('\n')
+install_requires = [e.strip() for e in li_req if len(e)]
 
-    def get_npm_name(self):
-        npmName = 'npm';
-        if platform.system() == 'Windows':
-            npmName = 'npm.cmd';
-            
-        return npmName;
-    
-    def has_npm(self):
-        npmName = self.get_npm_name();
-        try:
-            check_call([npmName, '--version'])
-            return True
-        except:
-            return False
 
-    def should_run_npm_install(self):
-        package_json = os.path.join(node_root, 'package.json')
-        node_modules_exists = os.path.exists(self.node_modules)
-        return self.has_npm()
+name = module
+name_url = name.replace('_', '-')
 
-    def run(self):
-        has_npm = self.has_npm()
-        if not has_npm:
-            log.error("`npm` unavailable.  If you're running this command using sudo, make sure `npm` is available to sudo")
+packages = [module]
+version = meta_ns['__version__']
+description = 'Jupyter widget (or ipywidget) wrapping the very convenient pivotTable.js library'
+long_description = 'See github repo README'
+author = 'PierreMarion23'
+author_email = 'pierre23.marion@free.fr'
+# github template
+url = 'https://github.com/{}/{}'.format(author,
+                                        name_url)
+download_url = 'https://github.com/{}/{}/tarball/{}'.format(author,
+                                                            name_url,
+                                                            version)
+keywords = ['jupyter-widget',
+            'javascript',
+            'pivottable',
+            ]
+license = 'MIT'
+classifiers = ['Development Status :: 4 - Beta',
+               'License :: OSI Approved :: MIT License',
+               'Programming Language :: Python :: 3.5',
+               'Programming Language :: Python :: 3.6'
+               ]
+include_package_data = True
+data_files = [
+    ('share/jupyter/nbextensions/ipypivot', [
+        'ipypivot/static/extension.js',
+        'ipypivot/static/index.js',
+        'ipypivot/static/index.js.map',
+    ]),
+]
+install_requires = install_requires
+zip_safe = False
 
-        env = os.environ.copy()
-        env['PATH'] = npm_path
 
-        if self.should_run_npm_install():
-            log.info("Installing build dependencies with npm.  This may take a while...")
-            npmName = self.get_npm_name();
-            check_call([npmName, 'install'], cwd=node_root, stdout=sys.stdout, stderr=sys.stderr)
-            os.utime(self.node_modules, None)
-
-        for t in self.targets:
-            if not os.path.exists(t):
-                msg = 'Missing file: %s' % t
-                if not has_npm:
-                    msg += '\nnpm is required to build a development version of a widget extension'
-                raise ValueError(msg)
-
-        # update package data in case this created new files
-        update_package_data(self.distribution)
-
-version_ns = {}
-with open(os.path.join(here, 'ipywidget_pivot_table', '_version.py')) as f:
-    exec(f.read(), {}, version_ns)
-
-setup_args = {
-    'name': 'ipywidget_pivot_table',
-    'version': version_ns['__version__'],
-    'description': 'This is a jupyter widget (or ipywidget) wrapping the very convenient pivotTable.js library.',
-    'long_description': LONG_DESCRIPTION,
-    'include_package_data': True,
-    'data_files': [
-        ('share/jupyter/nbextensions/ipywidget-pivot-table', [
-            'ipywidget_pivot_table/static/extension.js',
-            'ipywidget_pivot_table/static/index.js',
-            'ipywidget_pivot_table/static/index.js.map',
-        ]),
-    ],
-    'install_requires': [
-        'ipywidgets>=7.0.0',
-        'pandas==0.22.0',
-    ],
-    'packages': find_packages(),
-    'zip_safe': False,
-    'cmdclass': {
-        'build_py': js_prerelease(build_py),
-        'egg_info': js_prerelease(egg_info),
-        'sdist': js_prerelease(sdist, strict=True),
-        'jsdeps': NPM,
-    },
-
-    'author': 'PierreMarion23',
-    'author_email': 'pierre23.marion@free.fr',
-    'url': 'https://github.com/PierreMarion23/pivot-table-widget',
-    'keywords': [
-        'ipython',
-        'jupyter',
-        'widgets',
-    ],
-    'classifiers': [
-        'Development Status :: 4 - Beta',
-        'Framework :: IPython',
-        'Intended Audience :: Developers',
-        'Intended Audience :: Science/Research',
-        'Topic :: Multimedia :: Graphics',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-    ],
-}
-
-setup(**setup_args)
+# ref https://packaging.python.org/tutorials/distributing-packages/
+setup(
+    name=name,
+    version=version,
+    packages=packages,
+    author=author,
+    author_email=author_email,
+    description=description,
+    long_description=long_description,
+    url=url,
+    download_url=download_url,
+    keywords=keywords,
+    license=license,
+    classifiers=classifiers,
+    include_package_data=include_package_data,
+    data_files=data_files,
+    install_requires=install_requires,
+    zip_safe=zip_safe,
+)

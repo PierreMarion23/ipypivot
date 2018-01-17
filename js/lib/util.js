@@ -42,9 +42,24 @@ JSONPivotTable.parse = function (str) {
 	});
 };
 
+var formatDate = function (d) {
+	// var options = {
+	// 	month: 'short',
+	// 	day: 'numeric',
+	// 	hour: '2-digit',
+	// 	minute: '2-digit',
+	// 	second: '2-digit'
+	// };
+	// return d.toLocaleDateString('en-US', options);
+
+	var dateStr = d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+	return dateStr;
+};
+
 
 var util = {
-	JSONPivotTable: JSONPivotTable
+	JSONPivotTable: JSONPivotTable,
+	formatDate: formatDate
 };
 
 module.exports = util;

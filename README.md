@@ -1,4 +1,4 @@
-# ipywidget-pivot-table
+# ipypivot
 
 [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/PierreMarion23/jupyter-widget-pivot-table-binder/master)
 
@@ -14,8 +14,8 @@ An ipywidget is a Python package with some associated javascript files.
 As such the installation requires 2 step:
 
 ```bash
-$ pip install ipywidget_pivot_table
-$ jupyter nbextension enable --py --sys-prefix ipywidget_pivot_table
+$ pip install ipypivot
+$ jupyter nbextension enable --py --sys-prefix ipypivot
 ```
 
 For more info about the installation of this widget, and also tips about the development of custom jupyter widgets, see the [Install Guide](doc/install_guide.md).
@@ -27,7 +27,7 @@ See the [demo notebook](notebooks/demo_pivot_table.ipynb) for examples and expla
 In short:
 + The 2 pivotTable.js functions `pivot()` and `pivotUI()` are tranparently accessible.  
 + The data is expected in [pandas DataFrame](https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html) format.  
-+ The options are input as (1) a Python dictionary or (2) an option helper object (`Pivot_Options` or `PivotUI_Options`)  
++ The options are input as an option helper object (`Pivot_Options` or `PivotUI_Options`)  
 + _Note_: the range of possible options for `pivot()` and `pivotUI()` differ - but there is overlap.
 
 
@@ -38,23 +38,26 @@ df = pd.DataFrame(data=[{'color': 'blue', 'shape': 'circle'},
                         {'color': "red", 'shape': 'triangle'}])
 
 # pivot()
-# options as dict
-options = {'rows': ['color'],
-           'cols': ['shape']}
-p = pt.Pivot(df_data=df, options=options)
-p.show()
-
-# pivotUI
-# options as PivotUI_Options
-opts = pt.PivotUI_Options()
+p = pt.Pivot(df_data=df)
+opts = p.options
 opts.rows = ['color']
 opts.cols = ['shape']
-p = pt.PivotUI(df_data=df, options=opts)
-p.show()
+display(p)
+
+# pivotUI
+p = pt.PivotUI(df_data=df)
+opts = p.options
+opts.rows = ['color']
+opts.cols = ['shape']
+display(p)
 ```
 
 ## 4 - Credit
 
+<<<<<<< HEAD
 This repo is the result from a collaboration between [oscar6echo](https://github.com/oscar6echo), [ocoudray](https://github.com/ocoudray), and myself.
 
 
+=======
+This repo is the result from a collaboration between [oscar6echo](https://github.com/oscar6echo), [ocoudray](https://github.com/ocoudray), and [PierreMarion23](https://github.com/PierreMarion23).
+>>>>>>> dev

@@ -8,7 +8,7 @@ if (window.require) {
 	window.require.config({
 		map: {
 			"*": {
-				"ipywidget-pivot-table": "nbextensions/ipywidget-pivot-table/index",
+				"ipypivot": "nbextensions/ipypivot/index",
 			}
 		}
 	});

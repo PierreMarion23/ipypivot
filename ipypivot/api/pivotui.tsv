@@ -1,0 +1,25 @@
+Key 	Type 	Default value 	Description
+rows 	array of strings 	[] 	attribute names to prepopulate in row area
+cols 	array of strings 	[] 	attribute names to prepopulate in cols area
+vals 	array of strings 	[] 	attribute names to prepopulate in vals area (gets passed to aggregator generating function)
+aggregators 	object of functions 	$.pivotUtilities.aggregators 	dictionary of generators for aggregation functions in dropdown (see documentation)
+aggregatorName 	string 	first key in aggregators 	aggregator to prepopulate in dropdown i.e. key to aggregators object
+renderers 	object of functions 	$.pivotUtilities.renderers 	dictionary of rendering functions (see documentation)
+rendererName 	string 	first key in renderers 	renderer to prepopulate in dropdown, i.e key to renderers object
+rowOrder 	string 	"key_a_to_z" 	the order in which row data is provided to the renderer, must be one of "key_a_to_z", "value_a_to_z", "value_z_to_a", ordering by value orders by row total
+colOrder 	string 	"key_a_to_z" 	the order in which column data is provided to the renderer, must be one of "key_a_to_z", "value_a_to_z", "value_z_to_a", ordering by value orders by column total
+derivedAttributes 	object of functions 	{} 	defines derived attributes (see documentation)
+dataClass 	function 	$.pivotUtilities.PivotData 	Constructor for the data class to be built and passed to the Renderer (should be a subclass of the default)
+filter 	function 	function(){return true;} 	called on each record, returns false if the record is to be excluded from the input before rendering or true otherwise
+inclusions 	object of arrays of strings 	{} 	object whose keys are attribute names and values are arrays of attribute values which denote records to include in rendering; used to prepopulate the filter menus that appear on double-click (overrides exclusions below)
+exclusions 	object of arrays of strings 	{} 	object whose keys are attribute names and values are arrays of attribute values which denote records to exclude from rendering; used to prepopulate the filter menus that appear on double-click
+hiddenAttributes 	array of strings 	[] 	contains attribute names to omit from the UI
+hiddenFromAggregators 	array of strings 	[] 	contains attribute names to omit from the aggregator arguments dropdowns
+hiddenFromDragDrop 	array of strings 	[] 	contains attribute names to omit from the drag'n'drop portion of the UI
+sorters 	object or function 	{} 	accessed or called with an attribute name and can return a function which can be used as an argument to array.sort for output purposes. If no function is returned, the default sorting mechanism is a built-in "natural sort" implementation. Useful for sorting attributes like month names, see example 1 and example 2.
+onRefresh 	function 	function(){} 	called upon renderer refresh with an object representing the current UI settings (see example)
+menuLimit 	integer 	50 	maximum number of values to list in the double-click menu
+autoSortUnusedAttrs 	boolean 	false 	controls whether or not unused attributes are kept sorted in the UI
+unusedAttrsVertical 	boolean or integer 	85 	controls whether or not unused attributes are shown vertically instead of the default which is horizontally. true means always vertical, false means always horizontal. If set to a number (as is the default) then if the attributes' names' combined length in characters exceeds the number then the attributes will be shown vertically
+rendererOptions 	object 	{} 	passed through to renderer as options
+localeStrings 	object 	en strings 	locale-specific strings for UI display (see locale parameter below)
