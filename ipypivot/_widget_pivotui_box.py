@@ -40,8 +40,6 @@ class PivotUIBox(VBox):
                                    layout=widgets.Layout(width='160px'))
 
         def on_save_clicked(b):
-            msg = 'Last Save: <b>{}</b>'
-            msg = msg.format(self._now())
             self.status.value = 'Last Save: ' + self._now()
 
         self.button_save.on_click(on_save_clicked)
