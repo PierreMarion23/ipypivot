@@ -38,7 +38,7 @@ class Pivot(widgets.DOMWidget):
             arr.insert(0, list(df_data.columns))
             self._data = arr
 
-        self.df_data = df_data.copy()
+            self.df_data = df_data.copy()
 
     @observe('_counter')
     def change_options(self, change):
