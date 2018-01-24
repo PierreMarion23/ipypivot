@@ -58,7 +58,7 @@ class PivotUI(widgets.DOMWidget):
         # print('change _counter')
         self._options = self.options.to_dict()
 
-    @observe('options')
+    @observe('_options')
     def change_options_dic(self, change):
         # print('change options')
         for key, value in self._options.items():
