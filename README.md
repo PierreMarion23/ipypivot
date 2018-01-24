@@ -1,6 +1,6 @@
 # ipypivot
 
-[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/PierreMarion23/jupyter-widget-pivot-table-binder/master)
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/PierreMarion23/ipypivot-binder/master)
 
 ## 1 - Overview
 
