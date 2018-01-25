@@ -1,6 +1,6 @@
 # ipypivot
 
-[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/PierreMarion23/ipypivot-binder/master)
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/PierreMarion23/ipypivot-binder/master?filepath=demo_pivot_table.ipynb)
 
 ## 1 - Overview
 
