@@ -63,6 +63,10 @@ data_files = [
         'ipypivot/static/index.js',
         'ipypivot/static/index.js.map',
     ]),
+    ('etc/jupyter/nbconfig/notebook.d', [
+        'enable_ipypivot.json'
+    ])
+
 ]
 install_requires = install_requires
 zip_safe = False
