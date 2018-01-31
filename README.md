@@ -10,15 +10,19 @@ It enables to display and embed a pivotTable in a Jupyter notebook in a few Pyth
 
 ## 2 - Install
 
-An ipywidget is a Python package with some associated javascript files.  
-As such the installation requires 2 step:
+From pip:
 
 ```bash
 $ pip install ipypivot
-$ jupyter nbextension enable --py --sys-prefix ipypivot
 ```
 
-For more info about the installation of this widget, and also tips about the development of custom jupyter widgets, see the [Install Guide](doc/install_guide.md).
+From conda:
+
+```bash
+$ conda install -c conda-forge ipypivot
+```
+
+For more info about jupyter widgets (installation process, packaging and publishing), and also tips about the development of custom widgets, see [this tutorial repo](https://github.com/ocoudray/first-widget). All what's written there is also true for this package, just changing the name `first-widget` into `ipypivot`.
 
 ## 3 - User Guide
 
