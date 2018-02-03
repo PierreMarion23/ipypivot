@@ -19,8 +19,8 @@ class Pivot(widgets.DOMWidget):
     _model_name = Unicode('PivotModel').tag(sync=True)
     _view_module = Unicode('ipypivot').tag(sync=True)
     _model_module = Unicode('ipypivot').tag(sync=True)
-    _view_module_version = Unicode('^0.1.0').tag(sync=True)
-    _model_module_version = Unicode('^0.1.0').tag(sync=True)
+    _view_module_version = Unicode('~0.1.0').tag(sync=True)
+    _model_module_version = Unicode('~0.1.0').tag(sync=True)
 
     _data = List([]).tag(sync=True)
     _options = Dict({}).tag(sync=True)
