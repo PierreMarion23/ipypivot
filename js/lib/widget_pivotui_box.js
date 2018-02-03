@@ -22,12 +22,19 @@ require("./style.css");
 // differ from the defaults will be specified.
 
 var PivotUIBoxModel = ipywidgets.VBoxModel.extend({
-  defaults: $.extend(ipywidgets.VBoxModel.prototype.defaults(), {})
+  defaults: $.extend(ipywidgets.VBoxModel.prototype.defaults(), {
+    _model_name: "PivotUIBoxModel",
+    _view_name: "PivotUIBoxView",
+    _model_module: "ipypivot",
+    _view_module: "ipypivot",
+    _model_module_version: "~0.1.0",
+    _view_module_version: "~0.1.0",
+  })
 });
 
 var PivotUIBoxView = ipywidgets.VBoxView.extend({
   render: function() {
-    console.log("ipypivot PivotUIModel start render");
+    console.log("ipypivot PivotUIBoxModel start render");
 
     window.boxview = this; // debug
     ipywidgets.VBoxView.prototype.render.call(this); // call default render
@@ -43,7 +50,7 @@ var PivotUIBoxView = ipywidgets.VBoxView.extend({
 
       var button_save_clicked = function() {
         console.log(
-          "ipypivot PivotUIModel start button_save_clicked"
+          "ipypivot PivotUIBoxModel start button_save_clicked"
         );
         // save triggers all views rendering
         pivot_table.save_to_model(view_pivot);
@@ -51,7 +58,7 @@ var PivotUIBoxView = ipywidgets.VBoxView.extend({
 
       var button_restore_clicked = function() {
         console.log(
-          "ipypivot PivotUIModel start button_restore_cliked"
+          "ipypivot PivotUIBoxModel start button_restore_cliked"
         );
         // call_pivottablejs
         pivot_table.call_pivottablejs(view_pivot, "pivotui", "update");
