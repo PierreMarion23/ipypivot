@@ -16,6 +16,8 @@ class PivotUIBox(VBox):
     _model_name = Unicode('PivotUIBoxModel').tag(sync=True)
     _view_module = Unicode('ipypivot').tag(sync=True)
     _model_module = Unicode('ipypivot').tag(sync=True)
+    _view_module_version = Unicode('~0.1.0').tag(sync=True)
+    _model_module_version = Unicode('~0.1.0').tag(sync=True)
 
     def __init__(self,
                  df_data=None):
