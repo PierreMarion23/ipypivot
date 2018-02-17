@@ -26,7 +26,7 @@ For more info about jupyter widgets (installation process, packaging and publish
 
 ## 3 - User Guide
 
-See the [demo notebook](notebooks/demo_pivot_table.ipynb) for examples and explanations.  
+See the [demo notebook](https://nbviewer.jupyter.org/github/PierreMarion23/ipypivot/blob/master/notebooks/demo_ipypivot.ipynb) for examples and explanations.  
 
 In short:
 + The 2 pivotTable.js functions `pivot()` and `pivotUI()` are tranparently accessible.  
