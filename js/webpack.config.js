@@ -43,8 +43,8 @@ module.exports = [
 		module: {
 			rules: rules
 		},
-		externals: ['@jupyter-widgets/base']
-		// externals: ['@jupyter-widgets/base', '@jupyter-widgets/controls']
+		// externals: ['@jupyter-widgets/base']
+		externals: ['@jupyter-widgets/base', '@jupyter-widgets/controls']
 	},
 	{// Embeddable widget-pivot-table bundle
 		//
@@ -71,6 +71,7 @@ module.exports = [
 		module: {
 			rules: rules
 		},
-		externals: ['@jupyter-widgets/base']
+		// externals: ['@jupyter-widgets/base']
+		externals: ['@jupyter-widgets/base', '@jupyter-widgets/controls']
 	}
 ];
