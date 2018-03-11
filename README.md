@@ -68,3 +68,5 @@ But it may serve as an example for building a Jupyter widget from several compon
 ## 5 - Credit
 
 This repo is the result from a collaboration between [oscar6echo](https://github.com/oscar6echo), [ocoudray](https://github.com/ocoudray), and [PierreMarion23](https://github.com/PierreMarion23).
+
+For more context, read the article [Authoring Custom Jupyter Widgets - A Hands-On Guide](https://blog.jupyter.org/authoring-custom-jupyter-widgets-2884a462e724) on the [Jupyter Blog](https://blog.jupyter.org/).
