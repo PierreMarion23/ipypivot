@@ -53,6 +53,12 @@ class PivotUI(widgets.DOMWidget):
             arr.insert(0, list(df_data.columns))
             self._data = arr
 
+    def __getattr__(self, name):
+        if name == 'df_export':
+            print('df_export not yet loaded when the access was made, please try again now.')
+        else:
+            raise AttributeError("'PivotUI' object has no attribute '%s'" %name)
+
     @observe('_counter')
     def change_options(self, change):
         # print('change _counter')
