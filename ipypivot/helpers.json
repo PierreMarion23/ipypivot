@@ -1,0 +1,7 @@
+{
+    "renderers":["Col_Heatmap", "Heatmap", "Row_Heatmap", "Table", "Table_Barchart"],
+    "export_renderers":["TSV_Export"],
+    "c3_renderers":["Area_Chart", "Bar_Chart", "Horizontal_Bar_Chart", "Horizontal_Stacked_Bar_Chart", "Line_Chart", "Scatter_Chart", "Stacked_Bar_Chart"],
+    "d3_renderers":["Treemap"],
+    "aggregators":["Count", "Count_Unique_Values", "List_Unique_Values", "Sum", "Integer_Sum", "Average", "Median", "Sample_Variance", "Sample_Standard_Deviation", "Minimum", "Maximum", "First", "Last", "Sum_over_Sum", "EightyPercent_Upper_Bound", "EightyPercent_Lower_Bound", "Sum_as_Fraction_of_Total", "Sum_as_Fraction_of_Rows", "Sum_as_Fraction_of_Columns", "Count_as_Fraction_of_Total", "Count_as_Fraction_of_Rows", "Count_as_Fraction_of_Columns"]
+}

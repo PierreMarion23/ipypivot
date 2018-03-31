@@ -6,6 +6,7 @@ from ._widget_pivot import Pivot
 from ._widget_pivotui_box import PivotUIBox as PivotUI
 from ._options import Pivot_Options, PivotUI_Options
 from ._sample import samples
+from ._helpers import helpers
 
 
 def _jupyter_nbextension_paths():

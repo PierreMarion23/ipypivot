@@ -1,3 +1,4 @@
+import pprint
 
 from ._wrapper import Wrapper
 from ._state import state_Pivot, state_PivotUI
@@ -20,7 +21,8 @@ class Pivot_Options(Wrapper):
             self._pivot._counter += 1
 
     def __repr__(self):
-        return str(self.to_dict())
+        pp = pprint.PrettyPrinter(indent=1)
+        return pp.pformat(self.to_dict())
 
 
 class PivotUI_Options(Wrapper):
@@ -40,4 +42,5 @@ class PivotUI_Options(Wrapper):
             self._pivot._counter += 1
 
     def __repr__(self):
-        return str(self.to_dict())
+        pp = pprint.PrettyPrinter(indent=1)
+        return pp.pformat(self.to_dict()) 
