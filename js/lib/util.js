@@ -5,6 +5,7 @@
 var $ = require('jquery');
 var c3 = require('c3');
 var d3 = require('d3');
+var Utilities = require('react-pivottable/Utilities')
 
 var JSONPivotTable = {};
 
@@ -33,6 +34,10 @@ JSONPivotTable.parse = function (str) {
 			return r;
 		}
 		else if (valueCompact.substring(0, 8) == '$.extend') {
+			r = eval('(' + value + ')');
+			return r;
+		}
+		else if (valueCompact.substring(0, 9) == 'Utilities') {
 			r = eval('(' + value + ')');
 			return r;
 		}
