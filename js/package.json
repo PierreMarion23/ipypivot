@@ -17,7 +17,8 @@
     "pivottable"
   ],
   "files": [
-    "dist/*.js"
+    "lib/*.js",
+    "lib/*.css"
   ],
   "scripts": {
     "clean": "rimraf dist/ && rimraf ../ipypivot/static/",
@@ -25,6 +26,9 @@
     "prepare": "webpack",
     "watch": "watch 'npm run prepare' lib/",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "jupyterlab": {
+    "extension": "lib/labplugin"
   },
   "devDependencies": {
     "css-loader": "^0.28.7",
@@ -38,6 +42,7 @@
   "dependencies": {
     "@jupyter-widgets/base": "^1.1.8",
     "@jupyter-widgets/controls": "^1.1.5",
+    "@jupyter-widgets/jupyterlab-manager": "^0.28.0",
     "c3": "^0.4.18",
     "d3": "^3.5.5",
     "jquery": "^3.2.1",
