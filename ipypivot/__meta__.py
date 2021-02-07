@@ -12,5 +12,5 @@ def _get_version(version_info):
 
 # meta data
 
-version_info = (0, 2, 6, 'final', 0)
+version_info = (0, 2, 7, 'final', 0)
 __version__ = _get_version(version_info)
